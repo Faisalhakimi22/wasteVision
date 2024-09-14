@@ -10,7 +10,7 @@ temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
 # Load your custom YOLOv5 model
-@st.cache(allow_output_mutation=True)
+@st.cache_data
 def load_model():
     # Provide the full or relative path to your model
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'./best.pt', force_reload=True)  # Adjust this path
