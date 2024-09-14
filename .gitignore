@@ -5,7 +5,7 @@ yolov5/
 venv/
 
 # Model weights
-*.pt
+
 *.h5
 *.weights
 
