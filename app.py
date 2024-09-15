@@ -1,3 +1,4 @@
+Copy code
 import streamlit as st
 import torch
 import cv2
@@ -6,7 +7,6 @@ from PIL import Image
 import os
 import warnings
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
-import base64
 
 # Suppress deprecation warnings from PyTorch
 warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
@@ -23,53 +23,42 @@ def load_model():
 
 model = load_model()
 
-# Function to encode image to base64
-def encode_image_to_base64(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-
 # Custom CSS for styling
-def get_custom_css(background_base64, logo_base64):
-    return f"""
+def get_custom_css():
+    return """
         <style>
-        body {{
+        body {
             background-color: #121212; /* Dark background color */
             color: #e0e0e0; /* Light text color for contrast */
             margin: 0;
             padding: 0;
             overflow: hidden; /* Hide scrollbars if background is larger than viewport */
-        }}
-        .container {{
+        }
+        .container {
             position: relative;
             text-align: center;
             padding-top: 80px; /* Adjust space for the logo */
-        }}
-        .title {{
+        }
+        .title {
             text-align: center;
             font-size: 36px;
             font-weight: bold;
             color: #000000; /* Change text color to black */
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1; /* Ensure title is above background */
-        }}
-        .description {{
+        }
+        .description {
             font-size: 20px;
             color: #e0e0e0;
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1; /* Ensure description is above background */
-        }}
-        .upload-box {{
+        }
+        .upload-box {
             border: 2px dashed #4CAF50;
             padding: 10px;
             border-radius: 10px;
             margin-bottom: 20px;
             background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
-            position: relative;
-            z-index: 1; /* Ensure upload box is above background */
-        }}
-        .button {{
+        }
+        .button {
             display: block;
             margin: 20px auto;
             background-color: #4CAF50;
@@ -78,60 +67,44 @@ def get_custom_css(background_base64, logo_base64):
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 5px;
-            position: relative;
-            z-index: 1; /* Ensure button is above background */
-        }}
-        .button:hover {{
+        }
+        .button:hover {
             background-color: #45a049;
-        }}
-        .image-container {{
+        }
+        .image-container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            position: relative;
-            z-index: 1; /* Ensure image container is above background */
-        }}
-        /* Background Image */
-        .background {{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/jpeg;base64,{background_base64}') no-repeat center center fixed;
-            background-size: cover;
-            z-index: -1; /* Ensure background is behind other content */
-            opacity: 0.6; /* Adjust opacity if needed */
-        }}
+        }
         /* Logo positioning */
-        .logo {{
+        .logo {
             position: absolute;
             top: 0px; /* Default positioning */
             left: 50%;
             transform: translateX(-50%);
             width: 150px; /* Adjust size as needed */
-            z-index: 1; /* Ensure logo is above background */
-        }}
+        }
         /* Mobile specific adjustments */
-        @media (max-width: 768px) {{
-            .logo {{
+        @media (max-width: 768px) {
+            .logo {
                 top: -10px; /* Adjust for mobile view */
                 width: 120px; /* Optional: Adjust size for smaller screens */
-            }}
-        }}
+            }
+        }
         </style>
     """
 
-# Encode the background and logo images to base64
-background_base64 = encode_image_to_base64("background.jpeg")
-logo_base64 = encode_image_to_base64("logo1.png")
+# Apply custom CSS
+st.markdown(get_custom_css(), unsafe_allow_html=True)
 
-# Apply custom CSS with background and logo
-st.markdown(get_custom_css(background_base64, logo_base64), unsafe_allow_html=True)
+# Load and display background image
+background_image = Image.open("background.jpeg")
+st.image(background_image, use_column_width=True, caption="Background Image")
 
 # Add the logo to the foreground
-st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
+logo_image = Image.open("logo1.png")
+st.markdown(f'<img src="data:image/png;base64,{base64.b64encode(logo_image.tobytes()).decode()}" class="logo" alt="Logo">', unsafe_allow_html=True)
 
 # Content container
 st.markdown('<div class="container">', unsafe_allow_html=True)
@@ -140,7 +113,7 @@ st.markdown('<div class="description">Unveil the power of AI in recognizing and 
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
-st.sidebar.image('logo1.png', width=150)  # Add your logo image here
+st.sidebar.image(logo_image, width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
 
