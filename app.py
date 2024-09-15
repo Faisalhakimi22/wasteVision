@@ -41,8 +41,8 @@ page_bg_img = f"""
 
 @media (max-width: 768px) {{
    [data-testid="stAppViewContainer"] > .main {{
-        background-size: cover;
-        background-position: top;
+        background-position: top
+        
     }}
 }}
 
