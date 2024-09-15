@@ -9,7 +9,6 @@ from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfigura
 import base64
 
 # Suppress deprecation warnings from PyTorch
-warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
 
 # Set the cache directory dynamically based on environment
 torch.hub.set_dir(os.path.join(os.getcwd(), 'cache'))
