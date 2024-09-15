@@ -22,10 +22,57 @@ def load_model():
 
 model = load_model()
 
-st.title("Objects Detector :tea: :coffee:")
+# Custom CSS for styling
+st.markdown("""
+    <style>
+    .title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+    .description {
+        text-align: center;
+        font-size: 20px;
+        color: #555555;
+    }
+    .upload-box {
+        border: 2px dashed #4CAF50;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .button {
+        display: block;
+        margin: 20px auto;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+    .button:hover {
+        background-color: #45a049;
+    }
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="title">🌟 Objects Detector 🌟</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
+
+# Add an image or logo to the sidebar
+st.sidebar.image('logo.png', width=150)  # Add your logo image here
+st.sidebar.markdown('### About')
+st.sidebar.markdown('This app uses YOLOv5 to detect objects in images and videos. Upload files or use real-time camera feed to see object detection in action.')
 
 # Button for image/video upload
-upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"])
+upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
 
 # Function to resize image to 640x640
 def resize_image(img_array, size=(640, 640)):
@@ -76,15 +123,18 @@ if upload is not None:
         img = Image.open(upload)
         img_array = np.array(img)
 
-        # Display uploaded image
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
         st.image(img, caption="Uploaded Image", use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
         # Run YOLOv5 prediction
         prediction = make_prediction(img_array)
         img_with_bbox = create_image_with_bboxes(img_array, prediction)
 
         # Display image with bounding boxes
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
         st.image(img_with_bbox, caption="Detected Objects", use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     elif upload.type.startswith("video"):
         st.video(upload)
