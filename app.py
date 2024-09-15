@@ -81,7 +81,7 @@ page_bg_img = f"""
     }}
     .title {{
         top: 80px; /* Adjust for mobile view */
-        font-size: 2.0em; /* Adjust size for smaller screens */
+        font-size: 1.0em; /* Adjust size for smaller screens */
     }}
 }}
 
