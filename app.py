@@ -96,7 +96,7 @@ if upload is not None:
 # Button for real-time object detection
 if st.button("Start Real-Time Detection"):
     stframe = st.empty()
-    cap = cv2.VideoCapture(0)  # Use the default camera
+    cap = cv2.VideoCapture(5)  # Use the default camera
 
     if not cap.isOpened():
         st.error("Unable to access the camera. Please check your camera settings and permissions.")
