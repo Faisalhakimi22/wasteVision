@@ -44,6 +44,7 @@ page_bg_img = f"""
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: cover; /* Fit the sidebar */
 }}
 
 [data-testid="stHeader"] {{
@@ -55,11 +56,21 @@ page_bg_img = f"""
 
 .logo {{
     position: absolute;
-    top: 0px; /* Adjust this value to ensure spacing between logo and title */
+    top: 20px; /* Adjust to avoid overlap */
     left: 50%;
     transform: translateX(-50%);
     width: 150px; /* Adjust size as needed */
     z-index: 1; /* Ensure logo is above background */
+}}
+
+.title {{
+    position: absolute;
+    top: 100px; /* Adjust position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em; /* Adjust size as needed */
+    color: white; /* Adjust color as needed */
+    z-index: 1;
 }}
 
 @media (max-width: 768px) {{
@@ -67,6 +78,22 @@ page_bg_img = f"""
         top: 20px; /* Adjust for mobile view */
         width: 120px; /* Optional: Adjust size for smaller screens */
     }}
+    .title {{
+        top: 80px; /* Adjust for mobile view */
+        font-size: 1.5em; /* Adjust size for smaller screens */
+    }}
+}}
+
+.container {{
+    margin-top: 150px; /* Adjust based on logo and title size */
+}}
+
+.image-container {{
+    opacity: 0.7; /* Transparent image container */
+}}
+
+.video-container {{
+    opacity: 0.7; /* Transparent video container */
 }}
 </style>
 """
@@ -76,10 +103,10 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # Add the logo to the foreground
 logo_base64 = encode_image_to_base64("logo1.png")
 st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
+st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
 
 # Content container
 st.markdown('<div class="container">', unsafe_allow_html=True)
-st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
