@@ -103,22 +103,8 @@ page_bg_img = f"""
         font-size: 1.2em;
         text-align: center;
     }}
-
-    /* Content Container Styling for Mobile View */
-    .container {{
-        margin-top: 120px; /* Mobile view: adjust margin to fit mobile layout */
-    }}
-
-    /* Description Styling for Mobile View */
-    .description {{
-        margin-top: 0px; /* Mobile view: reduce space between description and title */
-    }}
 }}
 
-/* Content Container Styling */
-.container {{
-    margin-top: 320px; /* Web mode: restore the original margin */
-}}
 
 .image-container {{
     opacity: 0.9;
