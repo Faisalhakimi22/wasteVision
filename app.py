@@ -48,7 +48,7 @@ st.markdown("""
         font-size: 36px;
         font-weight: bold;
         color: #000000; /* Change text color to black */
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         position: relative;
         z-index: 1; /* Ensure title is above background */
     }
