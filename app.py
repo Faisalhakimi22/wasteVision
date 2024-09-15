@@ -69,7 +69,7 @@ page_bg_img = f"""
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
-    font-size: 5em; /* Adjust size as needed */
+    font-size: 3em; /* Adjust size as needed */
     color: black; /* Adjust color as needed */
     z-index: 1;
 }}
@@ -81,7 +81,7 @@ page_bg_img = f"""
     }}
     .title {{
         top: 80px; /* Adjust for mobile view */
-        font-size: 3.5em; /* Adjust size for smaller screens */
+        font-size: 2.5em; /* Adjust size for smaller screens */
     }}
 }}
 
