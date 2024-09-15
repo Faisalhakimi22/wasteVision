@@ -23,27 +23,30 @@ def load_model():
 
 model = load_model()
 
-# Function to encode image to base64
 def encode_image_to_base64(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
+# Encode your background image to base64
+background_image_path = "background_image.jpg"  # Replace with your image path
+background_base64 = encode_image_to_base64(background_image_path)
+
 # Custom CSS for styling
-st.markdown("""
+st.markdown(f"""
     <style>
-    body {
+    body {{
         background-color: #121212; /* Dark background color */
         color: #e0e0e0; /* Light text color for contrast */
         margin: 0;
         padding: 0;
         overflow: hidden; /* Hide scrollbars if background is larger than viewport */
-    }
-    .container {
+    }}
+    .container {{
         position: relative;
         text-align: center;
         padding-top: 80px; /* Adjust space for the logo */
-    }
-        .title {
+    }}
+    .title {{
         text-align: center;
         font-size: 36px;
         font-weight: bold;
@@ -51,15 +54,15 @@ st.markdown("""
         margin-bottom: 20px;
         position: relative;
         z-index: 1; /* Ensure title is above background */
-    }
-    .description {
+    }}
+    .description {{
         font-size: 20px;
         color: #e0e0e0;
         margin-bottom: 20px;
         position: relative;
         z-index: 1; /* Ensure description is above background */
-    }
-    .upload-box {
+    }}
+    .upload-box {{
         border: 2px dashed #4CAF50;
         padding: 10px;
         border-radius: 10px;
@@ -67,8 +70,8 @@ st.markdown("""
         background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
         position: relative;
         z-index: 1; /* Ensure upload box is above background */
-    }
-    .button {
+    }}
+    .button {{
         display: block;
         margin: 20px auto;
         background-color: #4CAF50;
@@ -79,49 +82,46 @@ st.markdown("""
         border-radius: 5px;
         position: relative;
         z-index: 1; /* Ensure button is above background */
-    }
-    .button:hover {
+    }}
+    .button:hover {{
         background-color: #45a049;
-    }
-    .image-container {
+    }}
+    .image-container {{
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         position: relative;
         z-index: 1; /* Ensure image container is above background */
-    }
+    }}
     /* Animation and Background Image */
-    .background {
+    .background {{
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: url('https://www.example.com/animated-background.gif') no-repeat center center fixed; /* Replace with your animated GIF or image URL */
+        background: url('data:image/jpg;base64,{background_base64}') no-repeat center center fixed; /* Replace with your base64 encoded image */
         background-size: cover;
         z-index: -1; /* Make sure background is behind other content */
         opacity: 0.6; /* Adjust opacity if needed */
-    }
+    }}
     /* Logo positioning */
-    /* Logo positioning */
-        .logo {
-            position: absolute;
-            top: 0px; /* Default positioning */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px; /* Adjust size as needed */
-            z-index: 1; /* Ensure logo is above background */
-        }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .logo {
-                top: -10px; /* Adjust for mobile view */
-                width: 120px; /* Optional: Adjust size for smaller screens */
-            }
-        }
-
+    .logo {{
+        position: absolute;
+        top: 0px; /* Default positioning */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px; /* Adjust size as needed */
+        z-index: 1; /* Ensure logo is above background */
+    }}
+    /* Mobile specific adjustments */
+    @media (max-width: 768px) {{
+        .logo {{
+            top: -10px; /* Adjust for mobile view */
+            width: 120px; /* Optional: Adjust size for smaller screens */
+        }}
+    }}
     </style>
 """, unsafe_allow_html=True)
 
