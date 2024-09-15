@@ -6,7 +6,6 @@ from PIL import Image
 import os
 import warnings
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
-import base64  
 
 # Suppress deprecation warnings from PyTorch
 warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
@@ -24,105 +23,98 @@ def load_model():
 model = load_model()
 
 # Custom CSS for styling
-def get_custom_css():
-    # Load and encode the background image
-    with open("background.jpeg", "rb") as f:
-        background_image = f.read()
-    background_base64 = base64.b64encode(background_image).decode()
+st.markdown("""
+    <style>
+    body {
+        background-color: #121212; /* Dark background color */
+        color: #e0e0e0; /* Light text color for contrast */
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Hide scrollbars if background is larger than viewport */
+    }
+    .title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        color: #000000; /* Change text color to black */
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1; /* Ensure title is above background */
+    }
+    .description {
+        text-align: center;
+        font-size: 20px;
+        color: #e0e0e0;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1; /* Ensure description is above background */
+    }
+    .upload-box {
+        border: 2px dashed #4CAF50;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
+        position: relative;
+        z-index: 1; /* Ensure upload box is above background */
+    }
+    .button {
+        display: block;
+        margin: 20px auto;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        position: relative;
+        z-index: 1; /* Ensure button is above background */
+    }
+    .button:hover {
+        background-color: #45a049;
+    }
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+        z-index: 1; /* Ensure image container is above background */
+    }
+    /* Animation and Background Image */
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://www.example.com/animated-background.gif') no-repeat center center fixed; /* Replace with your animated GIF or image URL */
+        background-size: cover;
+        z-index: -1; /* Make sure background is behind other content */
+        opacity: 0.6; /* Adjust opacity if needed */
+    }
+    /* Logo positioning */
+    .logo {
+        position: absolute;
+        top: -20px; /* Adjust as needed for mobile view */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px; /* Adjust size as needed */
+        z-index: 1; /* Ensure logo is above background */
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-    # Load and encode the logo image
-    with open("logo1.png", "rb") as f:
-        logo_image = f.read()
-    logo_base64 = base64.b64encode(logo_image).decode()
-
-    return f"""
-        <style>
-        body {{
-            background-image: url('data:image/jpeg;base64,{background_base64}');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }}
-        .container {{
-            position: relative;
-            text-align: center;
-            padding-top: 100px;
-            z-index: 1;
-        }}
-        .title {{
-            text-align: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: #000000;
-            margin-bottom: 20px;
-        }}
-        .description {{
-            font-size: 20px;
-            color: #e0e0e0;
-            margin-bottom: 20px;
-        }}
-        .upload-box {{
-            border: 2px dashed #4CAF50;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background-color: #1e1e1e;
-        }}
-        .button {{
-            display: block;
-            margin: 20px auto;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-        }}
-        .button:hover {{
-            background-color: #45a049;
-        }}
-        .image-container {{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }}
-        .logo {{
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            z-index: 1;
-        }}
-        @media (max-width: 768px) {{
-            .logo {{
-                top: 10px;
-                width: 120px;
-            }}
-        }}
-        </style>
-    """
-
-# Apply custom CSS
-st.markdown(get_custom_css(), unsafe_allow_html=True)
+st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 
 # Add the logo to the foreground
-logo_image = Image.open("logo1.png")
-st.markdown(f'<img src="data:image/png;base64,{base64.b64encode(logo_image.tobytes()).decode()}" class="logo" alt="Logo">', unsafe_allow_html=True)
+st.markdown(f'<img src="data:image/png;base64,{Image.open("logo1.png").tobytes().decode("utf-8")}" class="logo" alt="Logo">', unsafe_allow_html=True)
 
-# Content container
-st.markdown('<div class="container">', unsafe_allow_html=True)
 st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
-st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Empowering you to detect and analyze objects with cutting-edge AI technology. Upload your image or video to get started!</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
-st.sidebar.image(logo_image, width=150)  # Add your logo image here
+st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
 
@@ -197,21 +189,17 @@ if upload is not None:
         # OpenCV to read video
         tfile = open("temp_video.mp4", "wb")
         tfile.write(upload.read())
+        tfile.close()
+
         cap = cv2.VideoCapture("temp_video.mp4")
-
-        stframe = st.empty()  # Placeholder for video frame
-
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 break
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = make_prediction(frame_rgb)
-            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
-            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
 
+            results = make_prediction(frame)
+            frame_with_bbox = create_image_with_bboxes(frame, results)
+
+            st.image(frame_with_bbox, caption="Detected Objects", use_column_width=True)
         cap.release()
-        tfile.close()
-
-# Add footer
-st.markdown('<div class="footer">© 2024 Smart Object Detector. All Rights Reserved.</div>', unsafe_allow_html=True)
+        os.remove("temp_video.mp4")
