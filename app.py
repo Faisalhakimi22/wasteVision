@@ -103,14 +103,24 @@ st.markdown("""
         opacity: 0.6; /* Adjust opacity if needed */
     }
     /* Logo positioning */
-    .logo {
-        position: absolute;
-        top: 5px; /* Adjust as needed for mobile view */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 150px; /* Adjust size as needed */
-        z-index: 1; /* Ensure logo is above background */
-    }
+    /* Logo positioning */
+        .logo {
+            position: absolute;
+            top: 0px; /* Default positioning */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px; /* Adjust size as needed */
+            z-index: 1; /* Ensure logo is above background */
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                top: -10px; /* Adjust for mobile view */
+                width: 120px; /* Optional: Adjust size for smaller screens */
+            }
+        }
+
     </style>
 """, unsafe_allow_html=True)
 
