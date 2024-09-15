@@ -25,21 +25,29 @@ model = load_model()
 # Custom CSS for styling
 st.markdown("""
     <style>
+    body {
+        background-color: #121212; /* Dark background color */
+        color: #e0e0e0; /* Light text color for contrast */
+    }
     .title {
         text-align: center;
         font-size: 36px;
         font-weight: bold;
         color: #4CAF50;
+        margin-bottom: 20px;
     }
     .description {
         text-align: center;
         font-size: 20px;
-        color: #555555;
+        color: #e0e0e0;
+        margin-bottom: 20px;
     }
     .upload-box {
         border: 2px dashed #4CAF50;
         padding: 10px;
         border-radius: 10px;
+        margin-bottom: 20px;
+        background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
     }
     .button {
         display: block;
@@ -60,8 +68,22 @@ st.markdown("""
         align-items: center;
         flex-direction: column;
     }
+    /* Animation and Background Image */
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://www.example.com/animated-background.gif') no-repeat center center fixed; /* Replace with your animated GIF or image URL */
+        background-size: cover;
+        z-index: -1; /* Make sure background is behind other content */
+        opacity: 0.6; /* Adjust opacity if needed */
+    }
     </style>
 """, unsafe_allow_html=True)
+
+st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 
 st.markdown('<div class="title">🌟 Objects Detector 🌟</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
