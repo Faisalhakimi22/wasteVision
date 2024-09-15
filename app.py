@@ -125,6 +125,13 @@ body {
 
 st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 
+# Add the logo to the foreground
+logo_base64 = encode_image_to_base64("logo1.png")
+st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
+
+# Content container
+st.markdown('<div class="container">', unsafe_allow_html=True)
+st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
