@@ -40,7 +40,7 @@ page_bg_img = f"""
 }}
 
 [data-testid="stSidebar"] > div:first-child {{
-    background-image: url(img_sidebar);
+    background-image: url("https://images.unsplash.com/photo-1579474719499-078545814cb2?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
