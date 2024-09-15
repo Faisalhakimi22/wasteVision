@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 import os
 import warnings
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
 
 # Suppress deprecation warnings from PyTorch
 warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
@@ -54,23 +55,21 @@ def create_image_with_bboxes(img_array, results):
 
     return img_array
 
-# Function to test camera indices
-def test_camera(index=0):
-    cap = cv2.VideoCapture(index)
-    if not cap.isOpened():
-        st.write(f"Error: Unable to access camera at index {index}.")
-        return
-    st.write(f"Camera at index {index} is working.")
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            st.write("Error: Unable to capture frame.")
-            break
-        cv2.imshow(f'Camera Feed {index}', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
+class VideoTransformer(VideoTransformerBase):
+    def __init__(self):
+        self.model = model  # Load the YOLOv5 model
+
+    def transform(self, frame):
+        img_array = frame.to_ndarray(format="bgr24")
+        results = make_prediction(img_array)
+        img_with_bbox = create_image_with_bboxes(img_array, results)
+        return img_with_bbox
+
+# WebRTC configuration
+RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+
+# Streamlit WebRTC component for real-time camera feed
+webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, rtc_configuration=RTC_CONFIG)
 
 if upload is not None:
     if upload.type.startswith("image"):
@@ -100,38 +99,6 @@ if upload is not None:
             ret, frame = cap.read()
             if not ret:
                 st.error("Failed to grab frame from the video.")
-                break
-
-            # Run YOLOv5 prediction
-            results = make_prediction(frame)
-            frame_with_bbox = create_image_with_bboxes(frame, results)
-
-            stframe.image(frame_with_bbox, channels="BGR")
-
-        cap.release()
-
-# Button for real-time object detection
-if st.button("Start Real-Time Detection"):
-    stframe = st.empty()
-
-    # Test different camera indices
-    for index in range(5):
-        st.write(f"Testing camera index {index}...")
-        test_camera(index)
-
-    # Use default camera index (0)
-    cap = cv2.VideoCapture(0)  # Adjust the index if necessary
-
-    if not cap.isOpened():
-        st.error("Unable to access the camera. Please check your camera settings and permissions.")
-        st.write(f"Debug: Camera access failed for index 0.")
-    else:
-        st.write("Camera is accessing...")
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                st.error("Failed to grab frame from the camera.")
-                st.write(f"Debug: Unable to grab frame from the camera.")
                 break
 
             # Run YOLOv5 prediction
