@@ -56,7 +56,7 @@ page_bg_img = f"""
 
 .logo {{
     position: absolute;
-    top: 10px; /* Adjust to avoid overlap */
+    top: 0px; /* Adjust to avoid overlap */
     left: 50%;
     transform: translateX(-50%);
     width: 150px; /* Adjust size as needed */
@@ -64,11 +64,12 @@ page_bg_img = f"""
 }}
 
 .title {{
-    position: absolute;
+    position: relative;
     top: 100px; /* Adjust position as needed */
     left: 50%;
     transform: translateX(-50%);
-    font-size: 4em; /* Adjust size as needed */
+    font-weight: bold;
+    font-size: 20em; /* Adjust size as needed */
     color: black; /* Adjust color as needed */
     z-index: 1;
 }}
