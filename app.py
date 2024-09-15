@@ -38,7 +38,6 @@ page_bg_img = f"""
     background-position: top;
     background-repeat: no-repeat;
     background-attachment: scroll; /* Ensure background scrolls with content */
-    background-size: cover; /* Ensure background covers the entire area */
 }}
 
 @media (max-width: 768px) {{
