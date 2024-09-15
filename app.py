@@ -28,7 +28,10 @@ def get_custom_css():
     return """
         <style>
         body {
-            background-color: #121212; /* Dark background color */
+            background-image: url('background.jpeg'); /* Background image URL */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the background image */
+            background-attachment: fixed; /* Fixed background image */
             color: #e0e0e0; /* Light text color for contrast */
             margin: 0;
             padding: 0;
@@ -37,7 +40,8 @@ def get_custom_css():
         .container {
             position: relative;
             text-align: center;
-            padding-top: 80px; /* Adjust space for the logo */
+            padding-top: 100px; /* Adjust space for the logo */
+            z-index: 1; /* Ensure content is above the background */
         }
         .title {
             text-align: center;
@@ -80,15 +84,16 @@ def get_custom_css():
         /* Logo positioning */
         .logo {
             position: absolute;
-            top: 0px; /* Default positioning */
+            top: 20px; /* Adjust top position as needed */
             left: 50%;
             transform: translateX(-50%);
             width: 150px; /* Adjust size as needed */
+            z-index: 1; /* Ensure the logo is above other content */
         }
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
             .logo {
-                top: -10px; /* Adjust for mobile view */
+                top: 10px; /* Adjust for mobile view */
                 width: 120px; /* Optional: Adjust size for smaller screens */
             }
         }
@@ -202,7 +207,7 @@ if upload is not None:
             stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
 
         cap.release()
-        os.remove("temp_video.mp4")  # Clean up temporary file
+        tfile.close()
 
-    else:
-        st.warning("Unsupported file type. Please upload an image or video.")
+# Add footer
+st.markdown('<div class="footer">© 2024 Smart Object Detector. All Rights Reserved.</div>', unsafe_allow_html=True)
