@@ -29,6 +29,7 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling
+st.markdown("""
 <style>
 body {
     background-color: #000000; /* Dark background color */
@@ -120,6 +121,10 @@ body {
     }
 }
 </style>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="background"></div>', unsafe_allow_html=True)
+
 st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
