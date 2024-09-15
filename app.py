@@ -49,7 +49,7 @@ page_bg_img = f"""
 
 /* Sidebar background */
 [data-testid="stSidebar"] > div:first-child {{
-    background-image: url("https://as2.ftcdn.net/v2/jpg/03/23/43/53/1000_F_323435346_88R1FUuxPhByogTI5IWYPLiqGQ455OL3.jpg");
+    background-image: url("https://images.pexels.com/photos/4668363/pexels-photo-4668363.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll; /* Ensure background scrolls with content */
