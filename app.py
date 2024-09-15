@@ -35,8 +35,7 @@ page_bg_img = f"""
 /* Apply background for the main app view */
 [data-testid="stAppViewContainer"] > .main {{
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
-    background-size: content;
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
 }}
 
