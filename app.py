@@ -37,12 +37,13 @@ page_bg_img = f"""
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
+    background-size: cover; /* Ensure the background image covers the container */
 }}
 
 @media (max-width: 768px) {{
    [data-testid="stAppViewContainer"] > .main {{
-        background-position: top
-        
+        background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
+        background-position: center; /* Center the image on mobile */
     }}
 }}
 
@@ -105,7 +106,18 @@ page_bg_img = f"""
 
 /* Content Container Styling */
 .container {{
-    margin-top: 250px;
+    margin-top: 320px; /* Increased margin to move content below the title */
+}}
+
+.description {{
+    margin-top: 20px; /* Add margin to move description text down */
+    opacity: 0.9;
+    color: black;
+    font-size: 1.2em;
+    text-align: center;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }}
 
 .image-container {{
