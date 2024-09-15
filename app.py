@@ -42,7 +42,7 @@ page_bg_img = f"""
 
 /* Sidebar background for desktop */
 [data-testid="stSidebar"] > div:first-child {{
-    background-image: url("https://images.unsplash.com/photo-1579474719499-078545814cb2?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-image: url("https://images.unsplash.com/photo-1503596476-1c12a8ba09a9?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
