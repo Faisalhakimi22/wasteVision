@@ -40,7 +40,7 @@ page_bg_img = f"""
 }}
 
 [data-testid="stSidebar"] > div:first-child {{
-    background-image: url("data:image/jpeg;base64,{img_sidebar}");
+    background-image: url("https://images.unsplash.com/photo-1650112274147-03a2dba421c8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -49,7 +49,7 @@ page_bg_img = f"""
 [data-testid="stHeader"] {{
     background: rgba(0,0,0,0);
 }}
-
+https://images.unsplash.com/photo-1650112274147-03a2dba421c8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
 [data-testid="stToolbar"] {{
     right: 2rem;
 }}
