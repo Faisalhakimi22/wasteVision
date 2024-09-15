@@ -103,10 +103,13 @@ page_bg_img = f"""
         font-size: 1.2em;
         text-align: center;
     }}
+    .description {{
+        margin-top: 10px; /* Mobile view: reduce space between description and title */
+    }}
 }}
 
 .description {{
-    margin-top: 200px; /* Web mode: keep original spacing */
+    margin-top: 280px; /* Web mode: keep original spacing */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
