@@ -32,26 +32,22 @@ def encode_image_to_base64(image_path):
 img_sidebar = encode_image_to_base64("new.jpeg")  # Sidebar background image
 page_bg_img = f"""
 <style>
-/* Apply background for the main app view */
+/* Main App Background Styling */
 [data-testid="stAppViewContainer"] > .main {{
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
     background-attachment: scroll;
-
+    background-size: cover;
 }}
-/* Adjust background for mobile view */
+
 @media (max-width: 768px) {{
    [data-testid="stAppViewContainer"] > .main {{
-        background-attachment: scroll; /* Allow scrolling for mobile to avoid issues */
-        background-position: top;
         background-size: cover;
-
     }}
 }}
 
-
-/* Sidebar background for desktop */
+/* Sidebar background */
 [data-testid="stSidebar"] > div:first-child {{
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: center;
@@ -59,13 +55,9 @@ page_bg_img = f"""
     background-attachment: fixed;
 }}
 
-/* Adjust sidebar background for mobile view */
 @media (max-width: 768px) {{
     [data-testid="stSidebar"] > div:first-child {{
-        background-attachment: scroll; /* Allow scrolling for mobile to avoid issues */
-        background-position: center;
-        background-size: cover;
-
+        background-attachment: scroll;
     }}
 }}
 
@@ -79,7 +71,7 @@ page_bg_img = f"""
     right: 2rem;
 }}
 
-/* Logo styling for proper alignment */
+/* Logo and Title Styling */
 .logo {{
     position: absolute;
     top: 120px;
@@ -89,7 +81,6 @@ page_bg_img = f"""
     z-index: 1;
 }}
 
-/* Title styling for proper alignment and size */
 .title {{
     position: absolute;
     top: 250px;
@@ -101,7 +92,6 @@ page_bg_img = f"""
     z-index: 1;
 }}
 
-/* Responsive styling for mobile view */
 @media (max-width: 768px) {{
     .logo {{
         top: 20px;
@@ -114,19 +104,17 @@ page_bg_img = f"""
     }}
 }}
 
-/* Container for main content */
+/* Content Container Styling */
 .container {{
     margin-top: 250px;
 }}
 
-/* Image container opacity adjustment */
 .image-container {{
-    opacity: 0.3;
+    opacity: 0.9;
 }}
 
-/* Video container opacity adjustment */
 .video-container {{
-    opacity: 0.3;
+    opacity: 0.9;
 }}
 </style>
 """
