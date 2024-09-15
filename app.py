@@ -28,6 +28,9 @@ st.markdown("""
     body {
         background-color: #121212; /* Dark background color */
         color: #e0e0e0; /* Light text color for contrast */
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Hide scrollbars if background is larger than viewport */
     }
     .title {
         text-align: center;
@@ -35,12 +38,16 @@ st.markdown("""
         font-weight: bold;
         color: #4CAF50;
         margin-bottom: 20px;
+        position: relative;
+        z-index: 1; /* Ensure title is above background */
     }
     .description {
         text-align: center;
         font-size: 20px;
         color: #e0e0e0;
         margin-bottom: 20px;
+        position: relative;
+        z-index: 1; /* Ensure description is above background */
     }
     .upload-box {
         border: 2px dashed #4CAF50;
@@ -48,6 +55,8 @@ st.markdown("""
         border-radius: 10px;
         margin-bottom: 20px;
         background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
+        position: relative;
+        z-index: 1; /* Ensure upload box is above background */
     }
     .button {
         display: block;
@@ -58,6 +67,8 @@ st.markdown("""
         padding: 10px 20px;
         font-size: 16px;
         border-radius: 5px;
+        position: relative;
+        z-index: 1; /* Ensure button is above background */
     }
     .button:hover {
         background-color: #45a049;
@@ -67,6 +78,8 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        position: relative;
+        z-index: 1; /* Ensure image container is above background */
     }
     /* Animation and Background Image */
     .background {
