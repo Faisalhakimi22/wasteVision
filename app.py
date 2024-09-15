@@ -105,11 +105,11 @@ st.markdown("""
     /* Logo positioning */
     .logo {
         position: absolute;
-        top: 20px; /* Adjust as needed for mobile view */
+        top: 5px; /* Adjust as needed for mobile view */
         left: 50%;
         transform: translateX(-50%);
         width: 150px; /* Adjust size as needed */
-        z-index: 2; /* Ensure logo is above background */
+        z-index: 1; /* Ensure logo is above background */
     }
     </style>
 """, unsafe_allow_html=True)
