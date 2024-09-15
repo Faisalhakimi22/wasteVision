@@ -4,6 +4,10 @@ import cv2
 import numpy as np
 from PIL import Image
 import os
+import warnings
+
+# Suppress deprecation warnings from PyTorch
+warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
 
 # Set the cache directory dynamically based on environment
 torch.hub.set_dir(os.path.join(os.getcwd(), 'cache'))
@@ -78,6 +82,7 @@ if upload is not None:
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
+                st.error("Failed to grab frame from the video.")
                 break
 
             # Run YOLOv5 prediction
@@ -91,11 +96,12 @@ if upload is not None:
 # Button for real-time object detection
 if st.button("Start Real-Time Detection"):
     stframe = st.empty()
-    cap = cv2.VideoCapture(0)  # Use the webcam (0 is default camera)
+    cap = cv2.VideoCapture(0)  # Use the default camera
 
     if not cap.isOpened():
-        st.error("Unable to access the camera. Please check your camera settings.")
+        st.error("Unable to access the camera. Please check your camera settings and permissions.")
     else:
+        st.write("Camera is accessing...")
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
