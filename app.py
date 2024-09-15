@@ -98,7 +98,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://www.example.com/animated-background.gif') no-repeat center center fixed; /* Replace with your animated GIF or image URL */
+    background: url('https://as2.ftcdn.net/v2/jpg/07/80/12/91/1000_F_780129198_kXS6j8nTqbFcHttlv0OXJmG5M7BftJ1F.jpg') no-repeat center center fixed; /* Replace with your .jpg image URL */
     background-size: cover;
     z-index: -1; /* Make sure background is behind other content */
     opacity: 0.6; /* Adjust opacity if needed */
@@ -122,8 +122,8 @@ body {
 }
 </style>
 """, unsafe_allow_html=True)
-
 st.markdown('<div class="background"></div>', unsafe_allow_html=True)
+
 
 # Add the logo to the foreground
 logo_base64 = encode_image_to_base64("logo1.png")
