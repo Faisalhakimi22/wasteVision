@@ -32,6 +32,7 @@ def encode_image_to_base64(image_path):
 img_sidebar = encode_image_to_base64("new.jpeg")  # Sidebar background image
 page_bg_img = f"""
 <style>
+/* Apply background for the main app view */
 [data-testid="stAppViewContainer"] > .main {{
     background-image: url("https://images.unsplash.com/photo-1517319725296-466c84bd7d54?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-size: cover;
@@ -39,69 +40,86 @@ page_bg_img = f"""
     background-repeat: no-repeat;
 }}
 
+/* Sidebar background for desktop */
 [data-testid="stSidebar"] > div:first-child {{
     background-image: url("https://images.unsplash.com/photo-1579474719499-078545814cb2?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-    background-size: contain;  /* Keep the image's original size */
-    background-position: center; 
+    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: cover;
 }}
 
+/* Adjust sidebar background for mobile view */
+@media (max-width: 768px) {{
+    [data-testid="stSidebar"] > div:first-child {{
+        background-size: contain;
+        background-attachment: scroll; /* Allow scrolling for mobile to avoid issues */
+        background-position: center;
+    }}
+}}
+
+/* Transparent header to keep the background visible */
 [data-testid="stHeader"] {{
     background: rgba(0,0,0,0);
 }}
+
+/* Toolbar adjustment */
 [data-testid="stToolbar"] {{
     right: 2rem;
 }}
 
+/* Logo styling for proper alignment */
 .logo {{
     position: absolute;
-    top: 0px; /* Adjust to avoid overlap */
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
-    width: 150px; /* Adjust size as needed */
-    z-index: 1; /* Ensure logo is above background */
-}}
-
-.title {{
-    position: absolute;
-    top: 100px; /* Adjust position as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    font-weight: bold;
-    font-size: 2em; /* Adjust size as needed */
-    color: black; /* Adjust color as needed */
+    width: 150px;
     z-index: 1;
 }}
 
+/* Title styling for proper alignment and size */
+.title {{
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 2em;
+    color: black;
+    z-index: 1;
+}}
+
+/* Responsive styling for mobile view */
 @media (max-width: 768px) {{
     .logo {{
-        top: 20px; /* Adjust for mobile view */
-        width: 100px; /* Adjust size for smaller screens */
+        top: 20px;
+        width: 100px;
     }}
     .title {{
-        top: 120px; /* Adjust for mobile view */
-        font-size: 1.2em; /* Adjust size for smaller screens */
-        left: 50%;  /* Center the title */
-        transform: translateX(-50%);
+        top: 70px;
+        font-size: 1.2em;
+        text-align: center;
     }}
 }}
 
+/* Container for main content */
 .container {{
-    margin-top: 150px; /* Adjust based on logo and title size */
+    margin-top: 150px;
 }}
 
+/* Image container opacity adjustment */
 .image-container {{
-    opacity: 0.3; /* Transparent image container */
+    opacity: 0.3;
 }}
 
+/* Video container opacity adjustment */
 .video-container {{
-    opacity: 0.3; /* Transparent video container */
+    opacity: 0.3;
 }}
 </style>
 """
 
-# Apply the updated CSS
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Add the logo to the foreground
