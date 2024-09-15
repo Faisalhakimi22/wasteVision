@@ -97,7 +97,7 @@ page_bg_img = f"""
         width: 100px;
     }}
     .title {{
-        top: 70px;
+        top: 90px;
         font-size: 1.2em;
         text-align: center;
     }}
