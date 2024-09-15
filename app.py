@@ -84,7 +84,7 @@ page_bg_img = f"""
 
 .title {{
     position: absolute;
-    top: 180px; /* Reduced space between title and description */
+    top: 250px; /* Web mode: restore the original spacing */
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
@@ -99,7 +99,7 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 120px; /* Adjusted space for mobile view */
+        top: 150px; /* Mobile mode: reduce space between title and description */
         font-size: 1.2em;
         text-align: center;
     }}
@@ -107,11 +107,11 @@ page_bg_img = f"""
 
 /* Content Container Styling */
 .container {{
-    margin-top: 260px; /* Adjusted margin to align content properly */
+    margin-top: 320px; /* Web mode: restore the original margin */
 }}
 
 .description {{
-    margin-top: 10px; /* Reduced margin to decrease space between description and title */
+    margin-top: 10px; /* Mobile mode: reduce space between description and title */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
