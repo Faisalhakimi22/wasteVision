@@ -93,13 +93,13 @@ body {
 }
 /* Background Image */
 [data-testid="stAppViewContainer"] > .main {
-    background-image: url('background_main.jpeg'); /* Background for main app view */
+    background-image: url('background.jpeg'); /* Background for main app view */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 [data-testid="stSidebar"] > div:first-child {
-    background-image: url('background_sidebar.jpeg'); /* Background for sidebar */
+    background-image: url('background.jpeg'); /* Background for sidebar */
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
