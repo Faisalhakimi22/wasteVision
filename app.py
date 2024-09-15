@@ -37,13 +37,12 @@ page_bg_img = f"""
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
-    background-size: cover; /* Ensure the background image covers the container */
 }}
 
 @media (max-width: 768px) {{
    [data-testid="stAppViewContainer"] > .main {{
         background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
-        background-position: center; /* Center the image on mobile */
+        background-position: top; /* Center the image on mobile */
     }}
 }}
 
