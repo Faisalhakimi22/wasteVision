@@ -54,8 +54,25 @@ def create_image_with_bboxes(img_array, results):
 
     return img_array
 
+# Function to test camera indices
+def test_camera(index=0):
+    cap = cv2.VideoCapture(index)
+    if not cap.isOpened():
+        st.write(f"Error: Unable to access camera at index {index}.")
+        return
+    st.write(f"Camera at index {index} is working.")
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            st.write("Error: Unable to capture frame.")
+            break
+        cv2.imshow(f'Camera Feed {index}', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()
+
 if upload is not None:
-    # Check if it's an image or a video
     if upload.type.startswith("image"):
         img = Image.open(upload)
         img_array = np.array(img)
@@ -96,16 +113,25 @@ if upload is not None:
 # Button for real-time object detection
 if st.button("Start Real-Time Detection"):
     stframe = st.empty()
-    cap = cv2.VideoCapture(5)  # Use the default camera
+
+    # Test different camera indices
+    for index in range(5):
+        st.write(f"Testing camera index {index}...")
+        test_camera(index)
+
+    # Use default camera index (0)
+    cap = cv2.VideoCapture(0)  # Adjust the index if necessary
 
     if not cap.isOpened():
         st.error("Unable to access the camera. Please check your camera settings and permissions.")
+        st.write(f"Debug: Camera access failed for index 0.")
     else:
         st.write("Camera is accessing...")
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 st.error("Failed to grab frame from the camera.")
+                st.write(f"Debug: Unable to grab frame from the camera.")
                 break
 
             # Run YOLOv5 prediction
