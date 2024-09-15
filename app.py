@@ -76,7 +76,7 @@ page_bg_img = f"""
     top: 120px;
     left: 50%;
     transform: translateX(-50%);
-    width: 150px;
+    width: 160px;
     z-index: 1;
 }}
 
@@ -99,7 +99,6 @@ page_bg_img = f"""
     .title {{
         top: 90px;
         font-size: 1.2em;
-        text-align: center;
     }}
 }}
 
