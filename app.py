@@ -64,7 +64,7 @@ page_bg_img = f"""
 }}
 
 .title {{
-    position: relative;
+    position: absloute;
     top: 100px; /* Adjust position as needed */
     left: 50%;
     transform: translateX(-50%);
@@ -81,7 +81,7 @@ page_bg_img = f"""
     }}
     .title {{
         top: 80px; /* Adjust for mobile view */
-        font-size: 2.5em; /* Adjust size for smaller screens */
+        font-size: 2.0em; /* Adjust size for smaller screens */
     }}
 }}
 
