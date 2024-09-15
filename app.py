@@ -29,73 +29,105 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling with background images
-background_image_base64 = encode_image_to_base64("background.jpeg")
-st.markdown(f"""
-    <style>
-    body {{
-        background-image: url('data:image/jpeg;base64,{background_image_base64}');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        color: #e0e0e0;
-        margin: 0;
-        padding: 0;
-    }}
-    .container {{
-        position: relative;
-        text-align: center;
-        padding-top: 120px;
-    }}
-    .title {{
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        color: #e0e0e0;
-        margin-bottom: 10px;
-        position: relative;
-        z-index: 1;
-    }}
-    .description {{
-        font-size: 20px;
-        color: #e0e0e0;
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 1;
-    }}
-    .upload-box {{
-        border: 2px dashed #4CAF50;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        background-color: #1e1e1e;
-        position: relative;
-        z-index: 1;
-    }}
-    .button {{
-        display: block;
-        margin: 20px auto;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        position: relative;
-        z-index: 1;
-    }}
-    .button:hover {{
-        background-color: #45a049;
-    }}
-    .image-container {{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        position: relative;
-        z-index: 1;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
+st.markdown("""
+<style>
+body {
+    background-color: #000000; /* Dark background color */
+    color: #e0e0e0; /* Light text color for contrast */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide scrollbars if background is larger than viewport */
+}
+.container {
+    position: relative;
+    text-align: center;
+    padding-top: 120px; /* Adjust space for the logo and title */
+}
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #e0e0e0; /* Light text color for better contrast */
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1; /* Ensure title is above background */
+}
+.description {
+    font-size: 20px;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1; /* Ensure description is above background */
+}
+.upload-box {
+    border: 2px dashed #4CAF50;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
+    position: relative;
+    z-index: 1; /* Ensure upload box is above background */
+}
+.button {
+    display: block;
+    margin: 20px auto;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    position: relative;
+    z-index: 1; /* Ensure button is above background */
+}
+.button:hover {
+    background-color: #45a049;
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 1; /* Ensure image container is above background */
+}
+/* Background Image */
+[data-testid="stAppViewContainer"] > .main {
+    background-image: url('background.jpeg'); /* Background for main app view */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+[data-testid="stSidebar"] > div:first-child {
+    background-image: url('background1.jpeg'); /* Background for sidebar */
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+[data-testid="stHeader"] {
+    background: rgba(0,0,0,0);
+}
+[data-testid="stToolbar"] {
+    right: 2rem;
+}
+/* Logo positioning */
+.logo {
+    position: absolute;
+    top: 0px; /* Adjust this value to ensure spacing between logo and title */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px; /* Adjust size as needed */
+    z-index: 1; /* Ensure logo is above background */
+}
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+    .logo {
+        top: 20px; /* Adjust for mobile view */
+        width: 120px; /* Optional: Adjust size for smaller screens */
+    }
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Add the logo to the foreground
 logo_base64 = encode_image_to_base64("logo1.png")
