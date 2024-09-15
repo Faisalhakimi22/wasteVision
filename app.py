@@ -1,16 +1,28 @@
+
 import streamlit as st
-import subprocess
-import tempfile
-import os
-import base64
+import torch
 import cv2
 import numpy as np
 from PIL import Image
+import os
 import warnings
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
+import base64
 
 # Suppress deprecation warnings from PyTorch
 warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
+
+# Set the cache directory dynamically based on environment
+torch.hub.set_dir(os.path.join(os.getcwd(), 'cache'))
+
+@st.cache_data
+def load_model():
+    # Assuming 'best.pt' is in the same directory as the app
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt', force_reload=True)
+    model.eval()  # Set the model to evaluation mode
+    return model
+
+model = load_model()
 
 # Function to encode image to base64
 def encode_image_to_base64(image_path):
@@ -29,12 +41,25 @@ page_bg_img = f"""
     background-attachment: scroll; /* Ensure background scrolls with content */
 }}
 
+@media (max-width: 768px) {{
+   [data-testid="stAppViewContainer"] > .main {{
+        background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
+        background-position: top; /* Center the image on mobile */
+    }}
+}}
+
 /* Sidebar background */
 [data-testid="stSidebar"] > div:first-child {{
     background-image: url("https://images.pexels.com/photos/7829475/pexels-photo-7829475.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll; /* Ensure background scrolls with content */
+}}
+
+@media (max-width: 768px) {{
+    [data-testid="stSidebar"] > div:first-child {{
+        background-attachment: scroll;
+    }}
 }}
 
 /* Transparent header to keep the background visible */
@@ -59,7 +84,7 @@ page_bg_img = f"""
 
 .title {{
     position: absolute;
-    top: 250px;
+    top: 250px; /* Web mode: restore the original spacing */
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
@@ -74,14 +99,14 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 150px;
+        top: 150px; /* Mobile mode: adjust title position */
         font-size: 1.2em;
         text-align: center;
     }}
 
     /* Description Styling for Mobile View */
     .description {{
-        margin-top: 10px !important;
+        margin-top: 10px !important; /* Mobile view: reduce space between description and title */
         position: relative;
         opacity: 0.9;
         color: black;
@@ -95,11 +120,11 @@ page_bg_img = f"""
 
 /* Content Container Styling */
 .container {{
-    margin-top: 220px;
+    margin-top: 220px; /* Web mode: restore the original margin */
 }}
 
 .description {{
-    margin-top: 100px;
+    margin-top: 100px; /* Web mode: keep original spacing */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
@@ -134,84 +159,83 @@ st.markdown('</div>', unsafe_allow_html=True)
 # Add an image or logo to the sidebar
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('<h3 style="color:white;">About</h3>', unsafe_allow_html=True)
-st.sidebar.markdown('<p style="color:white;">Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!</p>', unsafe_allow_html=True)
+st.sidebar.markdown('<p style="color:white;">Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!</p>',
+    unsafe_allow_html=True
+)
 
-# Button for image/video upload
+#Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
 
-# Function to create a temporary file and call detect.py
-def run_detect_py(image_path):
-    # Path to YOLO detect.py script
-    detect_script_path = 'detect.py'  # Adjust if needed
-    
-    # Path to your trained model
-    model_path = 'best.pt'  # Adjust if needed
+# Function to resize image to 640x640
+def resize_image(img_array, size=(640, 640)):
+    return cv2.resize(img_array, size)
 
-    # Run the detect.py script
-    command = [
-        'python', detect_script_path,
-        '--weights', model_path,
-        '--source', image_path,
-        '--save-txt', '--nosave'
-    ]
-    result = subprocess.run(command, capture_output=True, text=True)
-    
-    # Output path where the results are saved
-    output_path = 'runs/detect/exp'  # Adjust if needed
+# Function to make predictions
+def make_prediction(img):
+    # Resize image to 640x640 before making predictions
+    img_resized = resize_image(img)
+    results = model(img_resized)  # Perform detection
+    return results
 
-    return output_path, result.stderr
+# Function to create image with bounding boxes
+def create_image_with_bboxes(img_array, results):
+    labels, coords = results.xyxyn[0][:, -1], results.xyxyn[0][:, :-1]  # Labels and coordinates
+    n = len(labels)
+    img_height, img_width, _ = img_array.shape
 
-# Function to display image with bounding boxes
-def display_detected_image(output_path):
-    output_image_path = os.path.join(output_path, "image0.jpg")  # Adjust if needed
-    if os.path.exists(output_image_path):
-        result_image = Image.open(output_image_path)
-        return result_image
-    else:
-        st.error("Error: Detection results not found.")
-        return None
+    # Loop through detections and draw bounding boxes
+    for i in range(n):
+        row = coords[i]
+        if row[4] >= 0.3:  # If confidence score is above threshold (e.g., 0.3)
+            x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
+            img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
+            label = model.names[int(labels[i])]  # Get the label
+            img_array = cv2.putText(img_array, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+
+    return img_array
+
+class VideoTransformer(VideoTransformerBase):
+    def __init__(self):
+        self.model = model  # Load the YOLOv5 model
+
+    def transform(self, frame):
+        img_array = frame.to_ndarray(format="bgr24")
+        results = make_prediction(img_array)
+        img_with_bbox = create_image_with_bboxes(img_array, results)
+        return img_with_bbox
 
 # WebRTC configuration
 RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 # Streamlit WebRTC component for real-time camera feed
-webrtc_streamer(key="example", video_transformer_factory=VideoTransformerBase, rtc_configuration=RTC_CONFIG)
+webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, rtc_configuration=RTC_CONFIG)
 
 if upload is not None:
-    # Handle image
     if upload.type.startswith("image"):
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_file:
-            temp_file_path = temp_file.name
-            img = Image.open(upload)
-            img.save(temp_file_path)
-        
-        # Run detection
-        output_path, error = run_detect_py(temp_file_path)
-        if not error:
-            result_image = display_detected_image(output_path)
-            if result_image:
-                st.markdown('<div class="image-container">', unsafe_allow_html=True)
-                st.image(result_image, caption="Detected Objects", use_column_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-        else:
-            st.error(f"Error running detection: {error}")
-        
-        # Clean up temporary file
-        os.remove(temp_file_path)
+        img = Image.open(upload)
+        img_array = np.array(img)
 
-    # Handle video
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
+        st.image(img, caption="Uploaded Image", use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Run YOLOv5 prediction
+        prediction = make_prediction(img_array)
+        img_with_bbox = create_image_with_bboxes(img_array, prediction)
+
+        # Display image with bounding boxes
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
+        st.image(img_with_bbox, caption="Detected Objects", use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
     elif upload.type.startswith("video"):
         st.video(upload)
 
-        # Save video to a temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
-            temp_file_path = temp_file.name
-            tfile = open(temp_file_path, "wb")
-            tfile.write(upload.read())
-            tfile.close()
-        
         # OpenCV to read video
-        cap = cv2.VideoCapture(temp_file_path)
+        tfile = open("temp_video.mp4", "wb")
+        tfile.write(upload.read())
+        cap = cv2.VideoCapture("temp_video.mp4")
+
         stframe = st.empty()  # Placeholder for video frame
 
         while cap.isOpened():
@@ -219,22 +243,14 @@ if upload is not None:
             if not ret:
                 break
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # Save frame to a temporary file
-            frame_temp_path = "temp_frame.jpg"
-            cv2.imwrite(frame_temp_path, frame_rgb)
-            
-            # Run detection
-            output_path, error = run_detect_py(frame_temp_path)
-            if not error:
-                result_image = display_detected_image(output_path)
-                if result_image:
-                    stframe.image(result_image, channels="RGB", use_column_width=True)
-            
-            # Clean up temporary frame file
-            os.remove(frame_temp_path)
+            results = make_prediction(frame_rgb)
+            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
+            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
 
         cap.release()
-        os.remove(temp_file_path)  # Clean up temporary video file
+        os.remove("temp_video.mp4")  # Clean up temporary file
 
     else:
         st.warning("Unsupported file type. Please upload an image or video.")
+
+
