@@ -66,7 +66,7 @@ page_bg_img = f"""
 .title {{
     position: absolute;
     top: 100px; /* Adjust position as needed */
-    left: 55%;
+    left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
     font-size: 3em; /* Adjust size as needed */
