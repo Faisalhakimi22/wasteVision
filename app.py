@@ -33,7 +33,7 @@ img_sidebar = encode_image_to_base64("new.jpeg")  # Sidebar background image
 page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
-    background-image: url("new.jpeg");
+    background-image: url("background.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
