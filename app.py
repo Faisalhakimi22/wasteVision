@@ -41,7 +41,7 @@ st.markdown("""
     .container {
         position: relative;
         text-align: center;
-        padding-top: 100px; /* Adjust space for the logo */
+        padding-top: 80px; /* Adjust space for the logo */
     }
     .title {
         font-size: 36px;
@@ -105,7 +105,7 @@ st.markdown("""
     /* Logo positioning */
     .logo {
         position: absolute;
-        top: 20px; /* Adjust as needed */
+        top: 10px; /* Adjust as needed for mobile view */
         left: 50%;
         transform: translateX(-50%);
         width: 150px; /* Adjust size as needed */
@@ -123,7 +123,7 @@ st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="L
 # Content container
 st.markdown('<div class="container">', unsafe_allow_html=True)
 st.markdown('<div class="title">Objects Detector</div>', unsafe_allow_html=True)
-st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
