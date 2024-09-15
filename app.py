@@ -1,3 +1,5 @@
+
+You said:
 import streamlit as st
 import torch
 import cv2
@@ -6,6 +8,7 @@ from PIL import Image
 import os
 import warnings
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
+import base64
 
 # Suppress deprecation warnings from PyTorch
 warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
@@ -22,6 +25,11 @@ def load_model():
 
 model = load_model()
 
+# Function to encode image to base64
+def encode_image_to_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
+
 # Custom CSS for styling
 st.markdown("""
     <style>
@@ -32,7 +40,12 @@ st.markdown("""
         padding: 0;
         overflow: hidden; /* Hide scrollbars if background is larger than viewport */
     }
-    .title {
+    .container {
+        position: relative;
+        text-align: center;
+        padding-top: 80px; /* Adjust space for the logo */
+    }
+        .title {
         text-align: center;
         font-size: 36px;
         font-weight: bold;
@@ -42,7 +55,6 @@ st.markdown("""
         z-index: 1; /* Ensure title is above background */
     }
     .description {
-        text-align: center;
         font-size: 20px;
         color: #e0e0e0;
         margin-bottom: 20px;
@@ -94,24 +106,38 @@ st.markdown("""
         opacity: 0.6; /* Adjust opacity if needed */
     }
     /* Logo positioning */
-    .logo {
-        position: absolute;
-        top: -20px; /* Adjust as needed for mobile view */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 150px; /* Adjust size as needed */
-        z-index: 1; /* Ensure logo is above background */
-    }
+    /* Logo positioning */
+        .logo {
+            position: absolute;
+            top: 0px; /* Default positioning */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px; /* Adjust size as needed */
+            z-index: 1; /* Ensure logo is above background */
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                top: -10px; /* Adjust for mobile view */
+                width: 120px; /* Optional: Adjust size for smaller screens */
+            }
+        }
+
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 
 # Add the logo to the foreground
-st.markdown(f'<img src="data:image/png;base64,{Image.open("logo1.png").tobytes().decode("utf-8")}" class="logo" alt="Logo">', unsafe_allow_html=True)
+logo_base64 = encode_image_to_base64("logo1.png")
+st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
 
+# Content container
+st.markdown('<div class="container">', unsafe_allow_html=True)
 st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
-st.markdown('<div class="description">Empowering you to detect and analyze objects with cutting-edge AI technology. Upload your image or video to get started!</div>', unsafe_allow_html=True)
+st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
@@ -189,17 +215,21 @@ if upload is not None:
         # OpenCV to read video
         tfile = open("temp_video.mp4", "wb")
         tfile.write(upload.read())
-        tfile.close()
-
         cap = cv2.VideoCapture("temp_video.mp4")
+
+        stframe = st.empty()  # Placeholder for video frame
+
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 break
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = make_prediction(frame_rgb)
+            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
+            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
 
-            results = make_prediction(frame)
-            frame_with_bbox = create_image_with_bboxes(frame, results)
-
-            st.image(frame_with_bbox, caption="Detected Objects", use_column_width=True)
         cap.release()
-        os.remove("temp_video.mp4")
+        os.remove("temp_video.mp4")  # Clean up temporary file
+
+    else:
+        st.warning("Unsupported file type. Please upload an image or video.")
