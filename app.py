@@ -41,10 +41,10 @@ page_bg_img = f"""
 
 [data-testid="stSidebar"] > div:first-child {{
     background-image: url("https://images.unsplash.com/photo-1579474719499-078545814cb2?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: contain;  /* Keep the image's original size */
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover; /* Fit the sidebar */
 }}
 
 [data-testid="stHeader"] {{
@@ -77,11 +77,13 @@ page_bg_img = f"""
 @media (max-width: 768px) {{
     .logo {{
         top: 20px; /* Adjust for mobile view */
-        width: 120px; /* Optional: Adjust size for smaller screens */
+        width: 100px; /* Adjust size for smaller screens */
     }}
     .title {{
-        top: 90px; /* Adjust for mobile view */
-        font-size: 1.0em; /* Adjust size for smaller screens */
+        top: 120px; /* Adjust for mobile view */
+        font-size: 1.2em; /* Adjust size for smaller screens */
+        left: 50%;  /* Center the title */
+        transform: translateX(-50%);
     }}
 }}
 
@@ -99,6 +101,7 @@ page_bg_img = f"""
 </style>
 """
 
+# Apply the updated CSS
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Add the logo to the foreground
