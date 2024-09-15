@@ -40,13 +40,23 @@ page_bg_img = f"""
     background-attachment: scroll;
 
 }}
+/* Adjust background for mobile view */
+@media (max-width: 768px) {{
+   [data-testid="stAppViewContainer"] > .main {{
+        background-attachment: scroll; /* Allow scrolling for mobile to avoid issues */
+        background-position: top;
+        background-size: cover;
+
+    }}
+}}
+
 
 /* Sidebar background for desktop */
 [data-testid="stSidebar"] > div:first-child {{
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: scroll;
+    background-attachment: fixed;
 }}
 
 /* Adjust sidebar background for mobile view */
