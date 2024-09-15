@@ -106,7 +106,7 @@ body {
 /* Logo positioning */
 .logo {
     position: absolute;
-    top: 40px; /* Adjust this value to ensure spacing between logo and title */
+    top: 0px; /* Adjust this value to ensure spacing between logo and title */
     left: 50%;
     transform: translateX(-50%);
     width: 150px; /* Adjust size as needed */
