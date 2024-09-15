@@ -97,8 +97,10 @@ page_bg_img = f"""
         width: 100px;
     }}
     .title {{
-        top: 90px;
+        top: 100px;
         font-size: 1.2em;
+        text-align: center;
+
     }}
 }}
 
@@ -108,7 +110,7 @@ page_bg_img = f"""
 }}
 
 .description {{
-    margin-top: 20px; /* Add margin to move description text down */
+    margin-top: 10px; /* Add margin to move description text down */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
