@@ -64,7 +64,7 @@ page_bg_img = f"""
 }}
 
 .title {{
-    position: absloute;
+    position: center;
     top: 100px; /* Adjust position as needed */
     left: 50%;
     transform: translateX(-50%);
