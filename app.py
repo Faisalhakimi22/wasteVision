@@ -107,7 +107,7 @@ page_bg_img = f"""
 
 /* Content Container Styling */
 .container {{
-    margin-top: 320px; /* Web mode: restore the original margin */
+    margin-top: 220px; /* Web mode: restore the original margin */
 }}
 
 .description {{
