@@ -89,7 +89,7 @@ st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
 
-Button for image/video upload
+#Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
 
 # Function to resize image to 640x640
