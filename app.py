@@ -24,9 +24,12 @@ def load_model():
 model = load_model()
 
 # Function to encode image to base64
-def encode_image_to_base64(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+@st.experimental_memo
+def get_img_as_base64(file):
+    with open(file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+img = get_img_as_base64("background.jpeg")
 
 # Custom CSS for styling with background images
 st.markdown("""
@@ -99,7 +102,9 @@ body {
     background-attachment: fixed;
 }
 [data-testid="stSidebar"] > div:first-child {
-    background-image: url('background1.jpeg'); /* Background for sidebar */
+    background-image: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366
+
+'); /* Background for sidebar */
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
