@@ -3,17 +3,15 @@ import torch
 import cv2
 import numpy as np
 from PIL import Image
-import pathlib
+import os
 
-# Ensure compatibility with Windows file system
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+# Set the cache directory dynamically based on environment
+torch.hub.set_dir(os.path.join(os.getcwd(), 'cache'))
 
-# Load your custom YOLOv5 model from a local file
 @st.cache_data
 def load_model():
-    # Load the YOLOv5 model architecture first
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best.pt', force_reload=True)  # Adjust the path to your best.pt file
+    # Assuming 'best.pt' is in the same directory as the app
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt', force_reload=True)
     model.eval()  # Set the model to evaluation mode
     return model
 

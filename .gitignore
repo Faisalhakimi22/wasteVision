@@ -12,6 +12,7 @@ venv/
 # Temporary files
 temp_video.mp4
 *.log
+/cache
 
 # IDE and system files
 .idea/
@@ -56,7 +57,7 @@ coverage.xml
 
 # Jupyter Notebook
 .ipynb_checkpoints
-
+.test.py
 # dotenv
 .env
 
