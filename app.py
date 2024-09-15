@@ -37,12 +37,13 @@ page_bg_img = f"""
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
+    background-size: cover; /* Ensure the background image covers the entire area */
 }}
 
 @media (max-width: 768px) {{
    [data-testid="stAppViewContainer"] > .main {{
         background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
-        background-position: top; /* Center the image on mobile */
+        background-position: center; /* Center the image on mobile */
     }}
 }}
 
@@ -51,7 +52,7 @@ page_bg_img = f"""
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll; /* Ensure background scrolls with content */
 }}
 
 @media (max-width: 768px) {{
@@ -82,7 +83,7 @@ page_bg_img = f"""
 
 .title {{
     position: absolute;
-    top: 250px;
+    top: 220px; /* Reduced top margin to decrease space between title and description */
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
@@ -97,20 +98,19 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 150px;
+        top: 130px; /* Adjusted top margin for mobile view */
         font-size: 1.2em;
         text-align: center;
-
     }}
 }}
 
 /* Content Container Styling */
 .container {{
-    margin-top: 320px; /* Increased margin to move content below the title */
+    margin-top: 280px; /* Adjusted margin to align content properly */
 }}
 
 .description {{
-    margin-top: 0px; /* Add margin to move description text down */
+    margin-top: 10px; /* Reduced margin to decrease space between description and title */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
