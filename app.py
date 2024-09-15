@@ -134,8 +134,10 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
-st.sidebar.markdown('### About')
-st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
+st.sidebar.markdown('<h3 style="color:white;">About</h3>', unsafe_allow_html=True)
+st.sidebar.markdown('<p style="color:white;">Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!</p>',
+    unsafe_allow_html=True
+)
 
 #Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
