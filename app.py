@@ -106,7 +106,7 @@ page_bg_img = f"""
 
     /* Content Container Styling for Mobile View */
     .container {{
-        margin-top: 180px; /* Mobile view: adjust margin to fit mobile layout */
+        margin-top: 100px; /* Mobile view: adjust margin to fit mobile layout */
     }}
 }}
 
