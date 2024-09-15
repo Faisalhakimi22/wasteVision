@@ -38,7 +38,7 @@ page_bg_img = f"""
     background-position: top;
     background-repeat: no-repeat;
     background-attachment: scroll; /* Ensure background scrolls with content */
-    ; /* Cover the entire area */
+    background-size: cover; /* Ensure background covers the entire area */
 }}
 
 @media (max-width: 768px) {{
@@ -103,13 +103,25 @@ page_bg_img = f"""
         font-size: 1.2em;
         text-align: center;
     }}
-        .description {{
-        margin-top: 10px; /* Mobile view: reduce space between description and title */
-        position: relative; /* Ensure position property does not interfere with layout */
-    }}
 
+    /* Description Styling for Mobile View */
+    .description {{
+        margin-top: 10px !important; /* Mobile view: reduce space between description and title */
+        position: relative;
+        opacity: 0.9;
+        color: black;
+        font-size: 1.2em;
+        text-align: center;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }}
 }}
 
+/* Content Container Styling */
+.container {{
+    margin-top: 220px; /* Web mode: restore the original margin */
+}}
 
 .description {{
     margin-top: 280px; /* Web mode: keep original spacing */
@@ -121,7 +133,6 @@ page_bg_img = f"""
     margin-left: auto;
     margin-right: auto;
 }}
-
 
 .image-container {{
     opacity: 0.9;
