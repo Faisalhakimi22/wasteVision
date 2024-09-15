@@ -32,7 +32,7 @@ def encode_image_to_base64(image_path):
 st.markdown("""
     <style>
     body {
-        background-color: #121212; /* Dark background color */
+        background-color: #000000; /* Dark background color */
         color: #e0e0e0; /* Light text color for contrast */
         margin: 0;
         padding: 0;
@@ -45,7 +45,7 @@ st.markdown("""
     }
         .title {
         text-align: center;
-        font-size: 36px;
+        font-size: 24px;
         font-weight: bold;
         color: #000000; /* Change text color to black */
         margin-bottom: 10px;
