@@ -99,24 +99,29 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 150px; /* Mobile mode: reduce space between title and description */
+        top: 150px; /* Mobile mode: adjust title position */
         font-size: 1.2em;
         text-align: center;
     }}
 
     /* Content Container Styling for Mobile View */
     .container {{
-        margin-top: 100px; /* Mobile view: adjust margin to fit mobile layout */
+        margin-top: 120px; /* Mobile view: adjust margin to fit mobile layout */
+    }}
+
+    /* Description Styling for Mobile View */
+    .description {{
+        margin-top: 10px; /* Mobile view: reduce space between description and title */
     }}
 }}
 
 /* Content Container Styling */
 .container {{
-    margin-top: 220px; /* Web mode: restore the original margin */
+    margin-top: 320px; /* Web mode: restore the original margin */
 }}
 
 .description {{
-    margin-top: 0px; /* Mobile mode: reduce space between description and title */
+    margin-top: 0px; /* Web mode: keep original spacing */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
