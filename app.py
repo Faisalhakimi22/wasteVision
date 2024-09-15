@@ -70,7 +70,7 @@ page_bg_img = f"""
 /* Logo styling for proper alignment */
 .logo {{
     position: absolute;
-    top: 0px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
@@ -80,7 +80,7 @@ page_bg_img = f"""
 /* Title styling for proper alignment and size */
 .title {{
     position: absolute;
-    top: 100px;
+    top: 120px;
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
