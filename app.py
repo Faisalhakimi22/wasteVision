@@ -94,10 +94,10 @@ page_bg_img = f"""
 @media (max-width: 768px) {{
     .logo {{
         top: 20px;
-        width: 130px;
+        width: 150px;
     }}
     .title {{
-        top: 100px;
+        top: 150px;
         font-size: 1.2em;
         text-align: center;
 
