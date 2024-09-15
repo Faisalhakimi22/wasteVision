@@ -29,111 +29,97 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling
-st.markdown("""
-    <style>
-    body {
-        background-color: #000000; /* Dark background color */
-        color: #e0e0e0; /* Light text color for contrast */
-        margin: 0;
-        padding: 0;
-        overflow: hidden; /* Hide scrollbars if background is larger than viewport */
-    }
-    .container {
-        position: relative;
-        text-align: center;
-        padding-top: 80px; /* Adjust space for the logo */
-    }
-        .title {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        color: #000000; /* Change text color to black */
-        margin-bottom: 10px;
-        position: relative;
-        z-index: 1; /* Ensure title is above background */
-    }
-    .description {
-        font-size: 20px;
-        color: #e0e0e0;
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 1; /* Ensure description is above background */
-    }
-    .upload-box {
-        border: 2px dashed #4CAF50;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
-        position: relative;
-        z-index: 1; /* Ensure upload box is above background */
-    }
-    .button {
-        display: block;
-        margin: 20px auto;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        position: relative;
-        z-index: 1; /* Ensure button is above background */
-    }
-    .button:hover {
-        background-color: #45a049;
-    }
-    .image-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        position: relative;
-        z-index: 1; /* Ensure image container is above background */
-    }
-    /* Animation and Background Image */
-    .background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('https://www.example.com/animated-background.gif') no-repeat center center fixed; /* Replace with your animated GIF or image URL */
-        background-size: cover;
-        z-index: -1; /* Make sure background is behind other content */
-        opacity: 0.6; /* Adjust opacity if needed */
-    }
-    /* Logo positioning */
-    /* Logo positioning */
-        .logo {
-            position: absolute;
-            top: 0px; /* Default positioning */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px; /* Adjust size as needed */
-            z-index: 1; /* Ensure logo is above background */
-        }
+<style>
+body {
+    background-color: #000000; /* Dark background color */
+    color: #e0e0e0; /* Light text color for contrast */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide scrollbars if background is larger than viewport */
+}
+.container {
+    position: relative;
+    text-align: center;
+    padding-top: 120px; /* Adjust space for the logo and title */
+}
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #e0e0e0; /* Light text color for better contrast */
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1; /* Ensure title is above background */
+}
+.description {
+    font-size: 20px;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1; /* Ensure description is above background */
+}
+.upload-box {
+    border: 2px dashed #4CAF50;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
+    position: relative;
+    z-index: 1; /* Ensure upload box is above background */
+}
+.button {
+    display: block;
+    margin: 20px auto;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    position: relative;
+    z-index: 1; /* Ensure button is above background */
+}
+.button:hover {
+    background-color: #45a049;
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 1; /* Ensure image container is above background */
+}
+/* Animation and Background Image */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.example.com/animated-background.gif') no-repeat center center fixed; /* Replace with your animated GIF or image URL */
+    background-size: cover;
+    z-index: -1; /* Make sure background is behind other content */
+    opacity: 0.6; /* Adjust opacity if needed */
+}
+/* Logo positioning */
+.logo {
+    position: absolute;
+    top: 40px; /* Adjust this value to ensure spacing between logo and title */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px; /* Adjust size as needed */
+    z-index: 1; /* Ensure logo is above background */
+}
 
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .logo {
-                top: -10px; /* Adjust for mobile view */
-                width: 120px; /* Optional: Adjust size for smaller screens */
-            }
-        }
-
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown('<div class="background"></div>', unsafe_allow_html=True)
-
-# Add the logo to the foreground
-logo_base64 = encode_image_to_base64("logo1.png")
-st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
-
-# Content container
-st.markdown('<div class="container">', unsafe_allow_html=True)
-st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+    .logo {
+        top: 20px; /* Adjust for mobile view */
+        width: 120px; /* Optional: Adjust size for smaller screens */
+    }
+}
+</style>
 st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
