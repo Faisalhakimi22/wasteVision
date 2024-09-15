@@ -69,7 +69,7 @@ page_bg_img = f"""
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
-    font-size: 10em; /* Adjust size as needed */
+    font-size: 5em; /* Adjust size as needed */
     color: black; /* Adjust color as needed */
     z-index: 1;
 }}
