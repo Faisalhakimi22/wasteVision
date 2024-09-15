@@ -51,9 +51,10 @@ page_bg_img = f"""
 /* Adjust sidebar background for mobile view */
 @media (max-width: 768px) {{
     [data-testid="stSidebar"] > div:first-child {{
-        background-size: contain;
         background-attachment: scroll; /* Allow scrolling for mobile to avoid issues */
         background-position: center;
+        background-size: cover;
+
     }}
 }}
 
