@@ -96,15 +96,13 @@ body {
 }
 /* Background Image */
 [data-testid="stAppViewContainer"] > .main {
-    background-image: url('background.jpeg'); /* Background for main app view */
+    background-image: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366'); /* Background for main app view */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 [data-testid="stSidebar"] > div:first-child {
-    background-image: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366
-
-'); /* Background for sidebar */
+    background-image: url(''); /* Background for sidebar */
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
