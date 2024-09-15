@@ -99,7 +99,7 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 150px; /* Mobile mode: reduce space between title and description */
+        top: 100px; /* Mobile mode: reduce space between title and description */
         font-size: 1.2em;
         text-align: center;
     }}
