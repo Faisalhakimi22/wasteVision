@@ -103,10 +103,8 @@ page_bg_img = f"""
         font-size: 1.2em;
         text-align: center;
     }}
-    .description {{
-        margin-top: 10px; /* Mobile view: reduce space between description and title */
-    }}
 }}
+
 
 .description {{
     margin-top: 280px; /* Web mode: keep original spacing */
@@ -117,6 +115,12 @@ page_bg_img = f"""
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
+}}
+
+@media (max-width: 768px) {{
+    .description {{
+        top: 200px; /* Mobile view: reduce space between description and title */
+    }}
 }}
 
 .image-container {{
