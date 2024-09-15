@@ -38,13 +38,13 @@ page_bg_img = f"""
     background-position: top;
     background-repeat: no-repeat;
     background-attachment: scroll; /* Ensure background scrolls with content */
-    background-size: cover; /* Cover the entire area */
+    ; /* Cover the entire area */
 }}
 
 @media (max-width: 768px) {{
    [data-testid="stAppViewContainer"] > .main {{
         background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
-        background-position: center; /* Center the image on mobile */
+        background-position: top; /* Center the image on mobile */
     }}
 }}
 
@@ -99,7 +99,7 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 100px; /* Mobile mode: reduce space between title and description */
+        top: 150px; /* Mobile mode: reduce space between title and description */
         font-size: 1.2em;
         text-align: center;
     }}
@@ -111,7 +111,7 @@ page_bg_img = f"""
 }}
 
 .description {{
-    margin-top: 10px; /* Mobile mode: reduce space between description and title */
+    margin-top: 0px; /* Mobile mode: reduce space between description and title */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
