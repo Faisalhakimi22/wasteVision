@@ -22,9 +22,15 @@ st.title("Objects Detector :tea: :coffee:")
 # Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"])
 
+# Function to resize image to 640x640
+def resize_image(img_array, size=(640, 640)):
+    return cv2.resize(img_array, size)
+
 # Function to make predictions
 def make_prediction(img):
-    results = model(img)  # Perform detection
+    # Resize image to 640x640 before making predictions
+    img_resized = resize_image(img)
+    results = model(img_resized)  # Perform detection
     return results
 
 # Function to create image with bounding boxes
@@ -50,6 +56,7 @@ if upload is not None:
         img = Image.open(upload)
         img_array = np.array(img)
 
+        # Display uploaded image
         st.image(img, caption="Uploaded Image", use_column_width=True)
 
         # Run YOLOv5 prediction
@@ -86,15 +93,19 @@ if st.button("Start Real-Time Detection"):
     stframe = st.empty()
     cap = cv2.VideoCapture(0)  # Use the webcam (0 is default camera)
 
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
+    if not cap.isOpened():
+        st.error("Unable to access the camera. Please check your camera settings.")
+    else:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                st.error("Failed to grab frame from the camera.")
+                break
 
-        # Run YOLOv5 prediction
-        results = make_prediction(frame)
-        frame_with_bbox = create_image_with_bboxes(frame, results)
+            # Run YOLOv5 prediction
+            results = make_prediction(frame)
+            frame_with_bbox = create_image_with_bboxes(frame, results)
 
-        stframe.image(frame_with_bbox, channels="BGR")
+            stframe.image(frame_with_bbox, channels="BGR")
 
-    cap.release()
+        cap.release()
