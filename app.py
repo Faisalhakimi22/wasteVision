@@ -9,11 +9,12 @@ import pathlib
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
-# Load your custom YOLOv5 model
+# Load your custom YOLOv5 model from a local file
 @st.cache_data
 def load_model():
-    # Provide the full or relative path to your model
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'./best.pt', force_reload=True)  # Adjust this path
+    # Load the YOLOv5 model architecture first
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best.pt', force_reload=True)  # Adjust the path to your best.pt file
+    model.eval()  # Set the model to evaluation mode
     return model
 
 model = load_model()
@@ -30,7 +31,6 @@ def make_prediction(img):
 
 # Function to create image with bounding boxes
 def create_image_with_bboxes(img_array, results):
-    # Get the detection results
     labels, coords = results.xyxyn[0][:, -1], results.xyxyn[0][:, :-1]  # Labels and coordinates
     n = len(labels)
     img_height, img_width, _ = img_array.shape
