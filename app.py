@@ -105,6 +105,16 @@ page_bg_img = f"""
     }}
 }}
 
+.description {{
+    margin-top: 200px; /* Web mode: keep original spacing */
+    opacity: 0.9;
+    color: black;
+    font-size: 1.2em;
+    text-align: center;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}}
 
 .image-container {{
     opacity: 0.9;
