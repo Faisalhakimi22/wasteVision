@@ -101,7 +101,7 @@ body {
     background: url('https://as2.ftcdn.net/v2/jpg/07/80/12/91/1000_F_780129198_kXS6j8nTqbFcHttlv0OXJmG5M7BftJ1F.jpg') no-repeat center center fixed; /* Replace with your .jpg image URL */
     background-size: cover;
     z-index: -1; /* Make sure background is behind other content */
-    opacity: 0.6; /* Adjust opacity if needed */
+    opacity: 0.2; /* Adjust opacity if needed */
 }
 /* Logo positioning */
 .logo {
