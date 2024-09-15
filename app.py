@@ -29,7 +29,7 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling with background images
-img_sidebar = encode_image_to_base64("background1.jpeg")  # Sidebar background image
+img_sidebar = encode_image_to_base64("background.jpeg")  # Sidebar background image
 page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
