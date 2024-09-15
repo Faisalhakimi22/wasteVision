@@ -28,7 +28,7 @@ def encode_image_to_base64(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
-# Custom CSS for styling
+# Custom CSS for styling with background images
 st.markdown("""
 <style>
 body {
@@ -92,16 +92,23 @@ body {
     z-index: 1; /* Ensure image container is above background */
 }
 /* Background Image */
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('background.jpeg') no-repeat center center fixed; /* Use local .jpg image */
+[data-testid="stAppViewContainer"] > .main {
+    background-image: url('background_main.jpeg'); /* Background for main app view */
     background-size: cover;
-    z-index: -1; /* Make sure background is behind other content */
-    opacity: 0.6; /* Adjust opacity if needed */
+    background-position: center;
+    background-attachment: fixed;
+}
+[data-testid="stSidebar"] > div:first-child {
+    background-image: url('background_sidebar.jpeg'); /* Background for sidebar */
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+[data-testid="stHeader"] {
+    background: rgba(0,0,0,0);
+}
+[data-testid="stToolbar"] {
+    right: 2rem;
 }
 /* Logo positioning */
 .logo {
@@ -112,7 +119,6 @@ body {
     width: 150px; /* Adjust size as needed */
     z-index: 1; /* Ensure logo is above background */
 }
-
 /* Mobile specific adjustments */
 @media (max-width: 768px) {
     .logo {
@@ -122,8 +128,6 @@ body {
 }
 </style>
 """, unsafe_allow_html=True)
-st.markdown('<div class="background"></div>', unsafe_allow_html=True)
-
 
 # Add the logo to the foreground
 logo_base64 = encode_image_to_base64("logo1.png")
@@ -139,7 +143,6 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
-
 # Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
 
