@@ -29,106 +29,108 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling
-st.markdown("""
-    <style>
-    body {
-        background-color: #121212; /* Dark background color */
-        color: #e0e0e0; /* Light text color for contrast */
-        margin: 0;
-        padding: 0;
-        overflow: hidden; /* Hide scrollbars if background is larger than viewport */
-    }
-    .container {
-        position: relative;
-        text-align: center;
-        padding-top: 80px; /* Adjust space for the logo */
-    }
-        .title {
-        text-align: center;
-        font-size: 36px;
-        font-weight: bold;
-        color: #000000; /* Change text color to black */
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 1; /* Ensure title is above background */
-    }
-    .description {
-        font-size: 20px;
-        color: #e0e0e0;
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 1; /* Ensure description is above background */
-    }
-    .upload-box {
-        border: 2px dashed #4CAF50;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
-        position: relative;
-        z-index: 1; /* Ensure upload box is above background */
-    }
-    .button {
-        display: block;
-        margin: 20px auto;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        position: relative;
-        z-index: 1; /* Ensure button is above background */
-    }
-    .button:hover {
-        background-color: #45a049;
-    }
-    .image-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        position: relative;
-        z-index: 1; /* Ensure image container is above background */
-    }
-    /* Background Image */
-    .background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('background.jpeg') no-repeat center center fixed; /* Replace with your image */
-        background-size: cover;
-        z-index: -1; /* Ensure background is behind other content */
-        opacity: 0.6; /* Adjust opacity if needed */
-    }
-    /* Logo positioning */
-        .logo {
+def get_custom_css(background_base64, logo_base64):
+    return f"""
+        <style>
+        body {{
+            background-color: #121212; /* Dark background color */
+            color: #e0e0e0; /* Light text color for contrast */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars if background is larger than viewport */
+        }}
+        .container {{
+            position: relative;
+            text-align: center;
+            padding-top: 80px; /* Adjust space for the logo */
+        }}
+        .title {{
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #000000; /* Change text color to black */
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1; /* Ensure title is above background */
+        }}
+        .description {{
+            font-size: 20px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1; /* Ensure description is above background */
+        }}
+        .upload-box {{
+            border: 2px dashed #4CAF50;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
+            position: relative;
+            z-index: 1; /* Ensure upload box is above background */
+        }}
+        .button {{
+            display: block;
+            margin: 20px auto;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 1; /* Ensure button is above background */
+        }}
+        .button:hover {{
+            background-color: #45a049;
+        }}
+        .image-container {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 1; /* Ensure image container is above background */
+        }}
+        /* Background Image */
+        .background {{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/jpeg;base64,{background_base64}') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -1; /* Ensure background is behind other content */
+            opacity: 0.6; /* Adjust opacity if needed */
+        }}
+        /* Logo positioning */
+        .logo {{
             position: absolute;
             top: 0px; /* Default positioning */
             left: 50%;
             transform: translateX(-50%);
             width: 150px; /* Adjust size as needed */
             z-index: 1; /* Ensure logo is above background */
-        }
-
+        }}
         /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .logo {
+        @media (max-width: 768px) {{
+            .logo {{
                 top: -10px; /* Adjust for mobile view */
                 width: 120px; /* Optional: Adjust size for smaller screens */
-            }
-        }
+            }}
+        }}
+        </style>
+    """
 
-    </style>
-""", unsafe_allow_html=True)
+# Encode the background and logo images to base64
+background_base64 = encode_image_to_base64("background.jpeg")
+logo_base64 = encode_image_to_base64("logo1.png")
 
-# Replace 'your_image.jpeg' with your JPEG image path
-st.markdown('<div class="background"></div>', unsafe_allow_html=True)
+# Apply custom CSS with background and logo
+st.markdown(get_custom_css(background_base64, logo_base64), unsafe_allow_html=True)
 
 # Add the logo to the foreground
-logo_base64 = encode_image_to_base64("logo1.png")
 st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
 
 # Content container
@@ -141,8 +143,6 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
-
-# Rest of the code for uploading, video streaming, etc.
 
 # Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
