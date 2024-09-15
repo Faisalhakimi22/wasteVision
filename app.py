@@ -111,24 +111,13 @@ page_bg_img = f"""
 
     /* Description Styling for Mobile View */
     .description {{
-        margin-top: 10px; /* Mobile view: reduce space between description and title */
+        margin-top: 0px; /* Mobile view: reduce space between description and title */
     }}
 }}
 
 /* Content Container Styling */
 .container {{
     margin-top: 320px; /* Web mode: restore the original margin */
-}}
-
-.description {{
-    margin-top: 0px; /* Web mode: keep original spacing */
-    opacity: 0.9;
-    color: black;
-    font-size: 1.2em;
-    text-align: center;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
 }}
 
 .image-container {{
