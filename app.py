@@ -1,5 +1,3 @@
-
-You said:
 import streamlit as st
 import torch
 import cv2
