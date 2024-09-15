@@ -43,10 +43,11 @@ st.markdown("""
         text-align: center;
         padding-top: 80px; /* Adjust space for the logo */
     }
-    .title {
+        .title {
+        text-align: center;
         font-size: 36px;
         font-weight: bold;
-        color: #4CAF50;
+        color: #000000; /* Change text color to black */
         margin-bottom: 20px;
         position: relative;
         z-index: 1; /* Ensure title is above background */
@@ -132,7 +133,7 @@ st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="L
 
 # Content container
 st.markdown('<div class="container">', unsafe_allow_html=True)
-st.markdown('<div class="title">Objects Detector</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">Smart Object Detector</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Unveil the power of AI in recognizing and analyzing objects. Upload your media or use real-time detection to see the magic in action!</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
