@@ -24,113 +24,55 @@ def load_model():
 model = load_model()
 
 # Function to encode image to base64
-@st.experimental_memo
-def get_img_as_base64(file):
-    with open(file, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-img = get_img_as_base64("background.jpeg")
+def encode_image_to_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling with background images
-st.markdown("""
+img_sidebar = encode_image_to_base64("background1.jpeg")  # Sidebar background image
+page_bg_img = f"""
 <style>
-body {
-    background-color: #000000; /* Dark background color */
-    color: #e0e0e0; /* Light text color for contrast */
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Hide scrollbars if background is larger than viewport */
-}
-.container {
-    position: relative;
-    text-align: center;
-    padding-top: 120px; /* Adjust space for the logo and title */
-}
-.title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #e0e0e0; /* Light text color for better contrast */
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 1; /* Ensure title is above background */
-}
-.description {
-    font-size: 20px;
-    color: #e0e0e0;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1; /* Ensure description is above background */
-}
-.upload-box {
-    border: 2px dashed #4CAF50;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
-    position: relative;
-    z-index: 1; /* Ensure upload box is above background */
-}
-.button {
-    display: block;
-    margin: 20px auto;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    position: relative;
-    z-index: 1; /* Ensure button is above background */
-}
-.button:hover {
-    background-color: #45a049;
-}
-.image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    z-index: 1; /* Ensure image container is above background */
-}
-/* Background Image */
-[data-testid="stAppViewContainer"] > .main {
-    background-image: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366'); /* Background for main app view */
+[data-testid="stAppViewContainer"] > .main {{
+    background-image: url("https://images.unsplash.com/photo-1501426026826-31c667bdf23d");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
-}
-[data-testid="stSidebar"] > div:first-child {
-    background-image: url(''); /* Background for sidebar */
+    background-repeat: no-repeat;
+}}
+
+[data-testid="stSidebar"] > div:first-child {{
+    background-image: url("data:image/jpeg;base64,{img_sidebar}");
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
-[data-testid="stHeader"] {
+}}
+
+[data-testid="stHeader"] {{
     background: rgba(0,0,0,0);
-}
-[data-testid="stToolbar"] {
+}}
+
+[data-testid="stToolbar"] {{
     right: 2rem;
-}
-/* Logo positioning */
-.logo {
+}}
+
+.logo {{
     position: absolute;
     top: 0px; /* Adjust this value to ensure spacing between logo and title */
     left: 50%;
     transform: translateX(-50%);
     width: 150px; /* Adjust size as needed */
     z-index: 1; /* Ensure logo is above background */
-}
-/* Mobile specific adjustments */
-@media (max-width: 768px) {
-    .logo {
+}}
+
+@media (max-width: 768px) {{
+    .logo {{
         top: 20px; /* Adjust for mobile view */
         width: 120px; /* Optional: Adjust size for smaller screens */
-    }
-}
+    }}
+}}
 </style>
-""", unsafe_allow_html=True)
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Add the logo to the foreground
 logo_base64 = encode_image_to_base64("logo1.png")
@@ -146,7 +88,8 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
-# Button for image/video upload
+
+Button for image/video upload
 upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "jpeg", "mp4", "avi", "mov"], help="Upload an image or video file for detection.", label_visibility="visible")
 
 # Function to resize image to 640x640
