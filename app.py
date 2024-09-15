@@ -56,7 +56,7 @@ page_bg_img = f"""
 
 .logo {{
     position: absolute;
-    top: 20px; /* Adjust to avoid overlap */
+    top: 10px; /* Adjust to avoid overlap */
     left: 50%;
     transform: translateX(-50%);
     width: 150px; /* Adjust size as needed */
@@ -68,8 +68,8 @@ page_bg_img = f"""
     top: 100px; /* Adjust position as needed */
     left: 50%;
     transform: translateX(-50%);
-    font-size: 2em; /* Adjust size as needed */
-    color: white; /* Adjust color as needed */
+    font-size: 4em; /* Adjust size as needed */
+    color: black; /* Adjust color as needed */
     z-index: 1;
 }}
 
@@ -89,11 +89,11 @@ page_bg_img = f"""
 }}
 
 .image-container {{
-    opacity: 0.7; /* Transparent image container */
+    opacity: 0.3; /* Transparent image container */
 }}
 
 .video-container {{
-    opacity: 0.7; /* Transparent video container */
+    opacity: 0.3; /* Transparent video container */
 }}
 </style>
 """
