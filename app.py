@@ -99,7 +99,7 @@ body {
     background-attachment: fixed;
 }
 [data-testid="stSidebar"] > div:first-child {
-    background-image: url('background.jpeg'); /* Background for sidebar */
+    background-image: url('background1.jpeg'); /* Background for sidebar */
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
