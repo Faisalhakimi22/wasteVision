@@ -25,44 +25,54 @@ model = load_model()
 
 # Custom CSS for styling
 def get_custom_css():
-    return """
+    # Load and encode the background image
+    with open("background.jpeg", "rb") as f:
+        background_image = f.read()
+    background_base64 = base64.b64encode(background_image).decode()
+
+    # Load and encode the logo image
+    with open("logo1.png", "rb") as f:
+        logo_image = f.read()
+    logo_base64 = base64.b64encode(logo_image).decode()
+
+    return f"""
         <style>
-        body {
-            background-image: url('data:image/jpeg;base64,{background_base64}'); /* Background image URL */
-            background-size: cover; /* Cover the entire page */
-            background-position: center; /* Center the background image */
-            background-attachment: fixed; /* Fixed background image */
-            color: #e0e0e0; /* Light text color for contrast */
+        body {{
+            background-image: url('data:image/jpeg;base64,{background_base64}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Hide scrollbars if background is larger than viewport */
-        }
-        .container {
+            overflow: hidden;
+        }}
+        .container {{
             position: relative;
             text-align: center;
-            padding-top: 100px; /* Adjust space for the logo */
-            z-index: 1; /* Ensure content is above the background */
-        }
-        .title {
+            padding-top: 100px;
+            z-index: 1;
+        }}
+        .title {{
             text-align: center;
             font-size: 36px;
             font-weight: bold;
-            color: #000000; /* Change text color to black */
+            color: #000000;
             margin-bottom: 20px;
-        }
-        .description {
+        }}
+        .description {{
             font-size: 20px;
             color: #e0e0e0;
             margin-bottom: 20px;
-        }
-        .upload-box {
+        }}
+        .upload-box {{
             border: 2px dashed #4CAF50;
             padding: 10px;
             border-radius: 10px;
             margin-bottom: 20px;
-            background-color: #1e1e1e; /* Slightly lighter dark background for the upload box */
-        }
-        .button {
+            background-color: #1e1e1e;
+        }}
+        .button {{
             display: block;
             margin: 20px auto;
             background-color: #4CAF50;
@@ -71,36 +81,32 @@ def get_custom_css():
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 5px;
-        }
-        .button:hover {
+        }}
+        .button:hover {{
             background-color: #45a049;
-        }
-        .image-container {
+        }}
+        .image-container {{
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-        }
-        /* Logo positioning */
-        .logo {
+        }}
+        .logo {{
             position: absolute;
-            top: 20px; /* Adjust top position as needed */
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 150px; /* Adjust size as needed */
-            z-index: 1; /* Ensure the logo is above other content */
-        }
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .logo {
-                top: 10px; /* Adjust for mobile view */
-                width: 120px; /* Optional: Adjust size for smaller screens */
-            }
-        }
+            width: 150px;
+            z-index: 1;
+        }}
+        @media (max-width: 768px) {{
+            .logo {{
+                top: 10px;
+                width: 120px;
+            }}
+        }}
         </style>
-    """.format(
-        background_base64=base64.b64encode(Image.open("background.jpeg").tobytes()).decode()
-    )
+    """
 
 # Apply custom CSS
 st.markdown(get_custom_css(), unsafe_allow_html=True)
