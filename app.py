@@ -28,7 +28,7 @@ def get_custom_css():
     return """
         <style>
         body {
-            background-image: url('background.jpeg'); /* Background image URL */
+            background-image: url('data:image/jpeg;base64,{background_base64}'); /* Background image URL */
             background-size: cover; /* Cover the entire page */
             background-position: center; /* Center the background image */
             background-attachment: fixed; /* Fixed background image */
@@ -98,14 +98,12 @@ def get_custom_css():
             }
         }
         </style>
-    """
+    """.format(
+        background_base64=base64.b64encode(Image.open("background.jpeg").tobytes()).decode()
+    )
 
 # Apply custom CSS
 st.markdown(get_custom_css(), unsafe_allow_html=True)
-
-# Load and display background image
-background_image = Image.open("background.jpeg")
-st.image(background_image, use_column_width=True, caption="Background Image")
 
 # Add the logo to the foreground
 logo_image = Image.open("logo1.png")
