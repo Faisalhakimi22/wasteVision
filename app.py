@@ -94,7 +94,7 @@ page_bg_img = f"""
 @media (max-width: 768px) {{
     .logo {{
         top: 20px;
-        width: 100px;
+        width: 130px;
     }}
     .title {{
         top: 100px;
@@ -110,7 +110,7 @@ page_bg_img = f"""
 }}
 
 .description {{
-    margin-top: 10px; /* Add margin to move description text down */
+    margin-top: 0px; /* Add margin to move description text down */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
