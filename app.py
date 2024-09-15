@@ -123,7 +123,7 @@ page_bg_img = f"""
 }}
 
 .description {{
-    margin-top: 200px; /* Web mode: keep original spacing */
+    margin-top: 100px; /* Web mode: keep original spacing */
     opacity: 0.9;
     color: black;
     font-size: 1.2em;
