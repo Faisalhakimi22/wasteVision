@@ -40,7 +40,7 @@ page_bg_img = f"""
 }}
 
 [data-testid="stSidebar"] > div:first-child {{
-    background-image: url("https://www.istockphoto.com/photo/three-trash-cans-in-the-airport-gm1063945252-284458428?utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fa-row-of-three-different-colored-paper-dispensers-lVFqmoc0r8w&utm_medium=affiliate&utm_source=unsplash&utm_term=aluminium+recycling%3A%3Areduced-affiliates%3Ahalf");
+    background-image: url("https://plus.unsplash.com/premium_photo-1673984400105-b6b3f8844d24?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
