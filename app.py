@@ -93,12 +93,23 @@ st.markdown("""
         z-index: -1; /* Make sure background is behind other content */
         opacity: 0.6; /* Adjust opacity if needed */
     }
+    /* Logo positioning */
+    .logo {
+        position: absolute;
+        top: 20px; /* Adjust as needed */
+        left: 20px; /* Adjust as needed */
+        width: 150px; /* Adjust size as needed */
+        z-index: 1; /* Ensure logo is above background */
+    }
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 
-st.markdown('<div class="title">🌟 Objects Detector 🌟</div>', unsafe_allow_html=True)
+# Add the logo to the foreground
+st.markdown(f'<img src="data:image/png;base64,{Image.open("logo1.png").tobytes().decode("utf-8")}" class="logo" alt="Logo">', unsafe_allow_html=True)
+
+st.markdown('<div class="title">Objects Detector</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
