@@ -40,7 +40,7 @@ page_bg_img = f"""
 }}
 
 [data-testid="stSidebar"] > div:first-child {{
-    background-image: url("https://images.unsplash.com/photo-1650112274147-03a2dba421c8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-image: url("https://www.istockphoto.com/photo/three-trash-cans-in-the-airport-gm1063945252-284458428?utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fa-row-of-three-different-colored-paper-dispensers-lVFqmoc0r8w&utm_medium=affiliate&utm_source=unsplash&utm_term=aluminium+recycling%3A%3Areduced-affiliates%3Ahalf");
     background-position: center; 
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -80,7 +80,7 @@ page_bg_img = f"""
         width: 120px; /* Optional: Adjust size for smaller screens */
     }}
     .title {{
-        top: 80px; /* Adjust for mobile view */
+        top: 90px; /* Adjust for mobile view */
         font-size: 1.0em; /* Adjust size for smaller screens */
     }}
 }}
