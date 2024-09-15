@@ -37,7 +37,8 @@ page_bg_img = f"""
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
-    background-size: cover; /* Ensure the background image covers the entire area */
+    background-attachment: scroll; /* Ensure background scrolls with content */
+    background-size: cover; /* Cover the entire area */
 }}
 
 @media (max-width: 768px) {{
@@ -83,7 +84,7 @@ page_bg_img = f"""
 
 .title {{
     position: absolute;
-    top: 220px; /* Reduced top margin to decrease space between title and description */
+    top: 180px; /* Reduced space between title and description */
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
@@ -98,7 +99,7 @@ page_bg_img = f"""
         width: 150px;
     }}
     .title {{
-        top: 130px; /* Adjusted top margin for mobile view */
+        top: 120px; /* Adjusted space for mobile view */
         font-size: 1.2em;
         text-align: center;
     }}
@@ -106,7 +107,7 @@ page_bg_img = f"""
 
 /* Content Container Styling */
 .container {{
-    margin-top: 280px; /* Adjusted margin to align content properly */
+    margin-top: 260px; /* Adjusted margin to align content properly */
 }}
 
 .description {{
