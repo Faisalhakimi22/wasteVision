@@ -6,6 +6,7 @@ from PIL import Image
 import os
 import warnings
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
+import base64
 
 # Suppress deprecation warnings from PyTorch
 warnings.filterwarnings("ignore", category=FutureWarning, module=".*common")
@@ -21,6 +22,11 @@ def load_model():
     return model
 
 model = load_model()
+
+# Function to encode image to base64
+def encode_image_to_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Custom CSS for styling
 st.markdown("""
@@ -107,7 +113,8 @@ st.markdown("""
 st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 
 # Add the logo to the foreground
-st.markdown(f'<img src="data:image/png;base64,{Image.open("logo1.png").tobytes().decode("utf-8")}" class="logo" alt="Logo">', unsafe_allow_html=True)
+logo_base64 = encode_image_to_base64("logo1.png")
+st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
 
 st.markdown('<div class="title">Objects Detector</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
@@ -190,17 +197,19 @@ if upload is not None:
         tfile.write(upload.read())
         cap = cv2.VideoCapture("temp_video.mp4")
 
-        stframe = st.empty()  # Placeholder for the video
+        stframe = st.empty()  # Placeholder for video frame
+
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
-                st.error("Failed to grab frame from the video.")
                 break
-
-            # Run YOLOv5 prediction
-            results = make_prediction(frame)
-            frame_with_bbox = create_image_with_bboxes(frame, results)
-
-            stframe.image(frame_with_bbox, channels="BGR")
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = make_prediction(frame_rgb)
+            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
+            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
 
         cap.release()
+        os.remove("temp_video.mp4")  # Clean up temporary file
+
+    else:
+        st.warning("Unsupported file type. Please upload an image or video.")
