@@ -38,8 +38,12 @@ st.markdown("""
         padding: 0;
         overflow: hidden; /* Hide scrollbars if background is larger than viewport */
     }
-    .title {
+    .container {
+        position: relative;
         text-align: center;
+        padding-top: 100px; /* Adjust space for the logo */
+    }
+    .title {
         font-size: 36px;
         font-weight: bold;
         color: #4CAF50;
@@ -48,7 +52,6 @@ st.markdown("""
         z-index: 1; /* Ensure title is above background */
     }
     .description {
-        text-align: center;
         font-size: 20px;
         color: #e0e0e0;
         margin-bottom: 20px;
@@ -103,7 +106,8 @@ st.markdown("""
     .logo {
         position: absolute;
         top: 20px; /* Adjust as needed */
-        left: 20px; /* Adjust as needed */
+        left: 50%;
+        transform: translateX(-50%);
         width: 150px; /* Adjust size as needed */
         z-index: 1; /* Ensure logo is above background */
     }
@@ -116,8 +120,11 @@ st.markdown('<div class="background"></div>', unsafe_allow_html=True)
 logo_base64 = encode_image_to_base64("logo1.png")
 st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
 
+# Content container
+st.markdown('<div class="container">', unsafe_allow_html=True)
 st.markdown('<div class="title">Objects Detector</div>', unsafe_allow_html=True)
 st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
 st.sidebar.image('logo1.png', width=150)  # Add your logo image here
