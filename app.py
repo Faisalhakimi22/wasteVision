@@ -102,7 +102,7 @@ st.markdown('<div class="title">🌟 Objects Detector 🌟</div>', unsafe_allow_
 st.markdown('<div class="description">Upload an image or video to detect objects, or use real-time detection with your camera.</div>', unsafe_allow_html=True)
 
 # Add an image or logo to the sidebar
-st.sidebar.image('logo.png', width=150)  # Add your logo image here
+st.sidebar.image('logo1.png', width=150)  # Add your logo image here
 st.sidebar.markdown('### About')
 st.sidebar.markdown('Welcome to EcoVision! Our app leverages advanced computer vision to automate and streamline the recycling process. With intelligent sorting bins and waste identification, EcoVision makes recycling easier and more efficient, helping you contribute to a cleaner, sustainable future. Join us in transforming waste management and making a positive impact on the environment!')
 
