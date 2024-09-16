@@ -45,6 +45,8 @@ page_bg_img = f"""
    [data-testid="stAppViewContainer"] > .main {{
         background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
         background-position: top; /* Center the image on mobile */
+        background-attachment: scroll; /* Ensure background scrolls with content */
+
     }}
 }}
 
