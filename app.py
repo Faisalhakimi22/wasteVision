@@ -34,7 +34,7 @@ img_sidebar = encode_image_to_base64("new.jpeg")  # Sidebar background image
 page_bg_img = f"""
 <style>
 /* Main App Background Styling */
-.body {{
+[data-testid="stAppViewContainer"] > .main {{
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
@@ -43,7 +43,7 @@ page_bg_img = f"""
 }}
 
 @media (max-width: 768px) {{
-   .main {{
+[data-testid="stAppViewContainer"] > .main {{
         background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
         background-position: top; /* Center the image on mobile */
 
