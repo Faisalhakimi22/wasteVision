@@ -45,7 +45,6 @@ page_bg_img = f"""
    [data-testid="stAppViewContainer"] > .main {{
         background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
         background-position: top; /* Center the image on mobile */
-        background-attachment: scroll; /* Ensure background scrolls with content */
 
     }}
 }}
@@ -55,7 +54,6 @@ page_bg_img = f"""
     background-image: url("https://images.pexels.com/photos/7829475/pexels-photo-7829475.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: scroll; /* Ensure background scrolls with content */
 }}
 
 @media (max-width: 768px) {{
