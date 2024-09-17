@@ -187,20 +187,33 @@ def create_image_with_bboxes(img_array, results):
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
-        if row[4] >= 0.3:  # If confidence score is above threshold (e.g., 0.3)
+        if row[4] >= 0.5:  # Increase confidence threshold to 0.5
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
             img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
+            
+            # Increase font size and add background rectangle for text
             label = model.names[int(labels[i])]  # Get the label
-            img_array = cv2.putText(img_array, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+            font_scale = 1.0  # Increase font size
+            font_thickness = 2  # Increase font thickness
+            text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]
+            
+            # Create background rectangle for label
+            label_bg = (x1, y1 - text_size[1] - 10)
+            label_bg_end = (x1 + text_size[0], y1)
+            cv2.rectangle(img_array, label_bg, label_bg_end, (0, 255, 0), -1)  # Green background
+            
+            # Add the label text on top of the background rectangle
+            img_array = cv2.putText(img_array, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (255, 255, 255), font_thickness)
 
     return img_array
 
 class VideoTransformer(VideoTransformerBase):
     def __init__(self):
-        self.model = model  # Load the YOLOv5 model
+        self.model = model
 
     def transform(self, frame):
         img_array = frame.to_ndarray(format="bgr24")
+        img_array = resize_image(img_array)  # Resize for faster processing
         results = make_prediction(img_array)
         img_with_bbox = create_image_with_bboxes(img_array, results)
         return img_with_bbox
