@@ -34,21 +34,19 @@ img_sidebar = encode_image_to_base64("new.jpeg")  # Sidebar background image
 page_bg_img = f"""
 <style>
 /* Main App Background Styling */
-[data-testid="stAppViewContainer"] >.main{{
+[data-testid="stAppViewContainer"] > .main {{
     background-image: url("https://as2.ftcdn.net/v2/jpg/00/67/08/17/1000_F_67081713_yoB2gKhW150YEYMLKxP9VgceF1OGAQLy.jpg");
     background-position: top;
     background-repeat: no-repeat;
-    background-attachment:; local /* Allow background to scroll with the content */
-
+    background-attachment: local; /* Ensure the background scrolls with content */
+    background-size: cover; /* Optional: Ensures the image covers the background space */
 }}
 
 @media (max-width: 768px) {{
-[data-testid="stAppViewContainer"] > .main {{
-        background-size: contain; /* Ensure the background image is displayed at actual size on mobile */
-        background-position: top; /* Center the image on mobile */
-        background-attachment:; local /* Allow background to scroll with the content */
-
-
+    [data-testid="stAppViewContainer"] > .main {{
+        background-size: contain; /* Display the background at actual size on mobile */
+        background-position: top;
+        background-attachment: local; /* Allow background to scroll with content */
     }}
 }}
 
