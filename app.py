@@ -187,23 +187,29 @@ def create_image_with_bboxes(img_array, results):
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
-        if row[4] >= 0.5:  # Increase confidence threshold to 0.5
+        if row[4] >= 0.5:  # Confidence threshold
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
             img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
             
-            # Increase font size and add background rectangle for text
+            # Increase font size and thickness for label readability
             label = model.names[int(labels[i])]  # Get the label
-            font_scale = 1.0  # Increase font size
-            font_thickness = 2  # Increase font thickness
+            font_scale = 1.5  # Larger font size
+            font_thickness = 3  # Thicker font
             text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]
             
-            # Create background rectangle for label
-            label_bg = (x1, y1 - text_size[1] - 10)
-            label_bg_end = (x1 + text_size[0], y1)
-            cv2.rectangle(img_array, label_bg, label_bg_end, (0, 255, 0), -1)  # Green background
+            # Define padding and background rectangle for label
+            padding = 10
+            label_bg_start = (x1, y1 - text_size[1] - 2 * padding)  # Top-left corner of label background
+            label_bg_end = (x1 + text_size[0] + 2 * padding, y1)  # Bottom-right corner of label background
             
-            # Add the label text on top of the background rectangle
-            img_array = cv2.putText(img_array, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (255, 255, 255), font_thickness)
+            # Draw background rectangle behind label (use darker color for better contrast)
+            cv2.rectangle(img_array, label_bg_start, label_bg_end, (50, 50, 50), -1)  # Dark gray background
+            
+            # Position the label text slightly below the top of the background rectangle
+            text_position = (x1 + padding, y1 - padding)
+            
+            # Add the label text in white for contrast
+            img_array = cv2.putText(img_array, label, text_position, cv2.FONT_HERSHEY_SIMPLEX, font_scale, (255, 255, 255), font_thickness)
 
     return img_array
 
