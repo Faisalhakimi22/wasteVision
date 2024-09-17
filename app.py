@@ -225,6 +225,7 @@ class VideoTransformer(VideoTransformerBase):
         return img_with_bbox
 
 # WebRTC configuration
+# WebRTC configuration
 RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 # Streamlit WebRTC component for real-time camera feed
@@ -234,42 +235,9 @@ if upload is not None:
     if upload.type.startswith("image"):
         img = Image.open(upload)
         img_array = np.array(img)
-
-        st.markdown('<div class="image-container">', unsafe_allow_html=True)
-        st.image(img, caption="Uploaded Image", use_column_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Run YOLOv5 prediction
-        prediction = make_prediction(img_array)
-        img_with_bbox = create_image_with_bboxes(img_array, prediction)
-
-        # Display image with bounding boxes
-        st.markdown('<div class="image-container">', unsafe_allow_html=True)
-        st.image(img_with_bbox, caption="Detected Objects", use_column_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        results = make_prediction(img_array)
+        img_with_bbox = create_image_with_bboxes(img_array, results)
+        st.image(img_with_bbox, caption="Uploaded Image", use_column_width=True)
 
     elif upload.type.startswith("video"):
         st.video(upload)
-
-        # OpenCV to read video
-        tfile = open("temp_video.mp4", "wb")
-        tfile.write(upload.read())
-        cap = cv2.VideoCapture("temp_video.mp4")
-
-        stframe = st.empty()  # Placeholder for video frame
-
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = make_prediction(frame_rgb)
-            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
-            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
-
-        cap.release()
-        os.remove("temp_video.mp4")  # Clean up temporary file
-
-    else:
-        st.warning("Unsupported file type. Please upload an image or video.")
-
