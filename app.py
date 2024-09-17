@@ -187,11 +187,29 @@ def create_image_with_bboxes(img_array, results):
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
-        if row[4] >= 0.3:  # If confidence score is above threshold (e.g., 0.3)
+        if row[4] >= 0.5:  # Confidence threshold
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
             img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
+            
+            # Increase font size and thickness for label readability
             label = model.names[int(labels[i])]  # Get the label
-            img_array = cv2.putText(img_array, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+            font_scale = 1.5  # Larger font size
+            font_thickness = 3  # Thicker font
+            text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]
+            
+            # Define padding and background rectangle for label
+            padding = 10
+            label_bg_start = (x1, y1 - text_size[1] - 2 * padding)  # Top-left corner of label background
+            label_bg_end = (x1 + text_size[0] + 2 * padding, y1)  # Bottom-right corner of label background
+            
+            # Draw background rectangle behind label (use darker color for better contrast)
+            cv2.rectangle(img_array, label_bg_start, label_bg_end, (50, 50, 50), -1)  # Dark gray background
+            
+            # Position the label text slightly below the top of the background rectangle
+            text_position = (x1 + padding, y1 - padding)
+            
+            # Add the label text in white for contrast
+            img_array = cv2.putText(img_array, label, text_position, cv2.FONT_HERSHEY_SIMPLEX, font_scale, (255, 255, 255), font_thickness)
 
     return img_array
 
@@ -204,6 +222,7 @@ class VideoTransformer(VideoTransformerBase):
         results = make_prediction(img_array)
         img_with_bbox = create_image_with_bboxes(img_array, results)
         return img_with_bbox
+        
 
 # WebRTC configuration
 RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
