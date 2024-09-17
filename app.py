@@ -184,6 +184,10 @@ def create_image_with_bboxes(img_array, results):
     n = len(labels)
     img_height, img_width, _ = img_array.shape
 
+    # Set a base font size relative to the image size
+    base_font_scale = 0.0015 * min(img_height, img_width)  # Adjust this scaling factor as needed
+    base_thickness = max(1, int(0.005 * min(img_height, img_width)))  # Adjust thickness dynamically
+    
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
@@ -191,14 +195,14 @@ def create_image_with_bboxes(img_array, results):
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
             img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
             
-            # Increase font size and thickness for label readability
+            # Dynamically adjust font size and thickness for label readability
             label = model.names[int(labels[i])]  # Get the label
-            font_scale = 1.5  # Larger font size
-            font_thickness = 3  # Thicker font
+            font_scale = base_font_scale  # Scale font size dynamically
+            font_thickness = base_thickness  # Scale font thickness dynamically
             text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]
             
             # Define padding and background rectangle for label
-            padding = 10
+            padding = int(0.01 * min(img_height, img_width))  # Adjust padding dynamically
             label_bg_start = (x1, y1 - text_size[1] - 2 * padding)  # Top-left corner of label background
             label_bg_end = (x1 + text_size[0] + 2 * padding, y1)  # Bottom-right corner of label background
             
