@@ -187,44 +187,24 @@ def create_image_with_bboxes(img_array, results):
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
-        if row[4] >= 0.5:  # Confidence threshold
+        if row[4] >= 0.3:  # If confidence score is above threshold (e.g., 0.3)
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
             img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
-            
-            # Increase font size and thickness for label readability
             label = model.names[int(labels[i])]  # Get the label
-            font_scale = 1.5  # Larger font size
-            font_thickness = 3  # Thicker font
-            text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_thickness)[0]
-            
-            # Define padding and background rectangle for label
-            padding = 10
-            label_bg_start = (x1, y1 - text_size[1] - 2 * padding)  # Top-left corner of label background
-            label_bg_end = (x1 + text_size[0] + 2 * padding, y1)  # Bottom-right corner of label background
-            
-            # Draw background rectangle behind label (use darker color for better contrast)
-            cv2.rectangle(img_array, label_bg_start, label_bg_end, (50, 50, 50), -1)  # Dark gray background
-            
-            # Position the label text slightly below the top of the background rectangle
-            text_position = (x1 + padding, y1 - padding)
-            
-            # Add the label text in white for contrast
-            img_array = cv2.putText(img_array, label, text_position, cv2.FONT_HERSHEY_SIMPLEX, font_scale, (255, 255, 255), font_thickness)
+            img_array = cv2.putText(img_array, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
 
     return img_array
 
 class VideoTransformer(VideoTransformerBase):
     def __init__(self):
-        self.model = model
+        self.model = model  # Load the YOLOv5 model
 
     def transform(self, frame):
         img_array = frame.to_ndarray(format="bgr24")
-        img_array = resize_image(img_array)  # Resize for faster processing
         results = make_prediction(img_array)
         img_with_bbox = create_image_with_bboxes(img_array, results)
         return img_with_bbox
 
-# WebRTC configuration
 # WebRTC configuration
 RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
@@ -235,9 +215,42 @@ if upload is not None:
     if upload.type.startswith("image"):
         img = Image.open(upload)
         img_array = np.array(img)
-        results = make_prediction(img_array)
-        img_with_bbox = create_image_with_bboxes(img_array, results)
-        st.image(img_with_bbox, caption="Uploaded Image", use_column_width=True)
+
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
+        st.image(img, caption="Uploaded Image", use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Run YOLOv5 prediction
+        prediction = make_prediction(img_array)
+        img_with_bbox = create_image_with_bboxes(img_array, prediction)
+
+        # Display image with bounding boxes
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
+        st.image(img_with_bbox, caption="Detected Objects", use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     elif upload.type.startswith("video"):
         st.video(upload)
+
+        # OpenCV to read video
+        tfile = open("temp_video.mp4", "wb")
+        tfile.write(upload.read())
+        cap = cv2.VideoCapture("temp_video.mp4")
+
+        stframe = st.empty()  # Placeholder for video frame
+
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = make_prediction(frame_rgb)
+            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
+            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
+
+        cap.release()
+        os.remove("temp_video.mp4")  # Clean up temporary file
+
+    else:
+        st.warning("Unsupported file type. Please upload an image or video.")
+
