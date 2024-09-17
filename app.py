@@ -1,4 +1,3 @@
-
 import streamlit as st
 import torch
 import cv2
@@ -39,7 +38,6 @@ page_bg_img = f"""
     background-position: top;
     background-repeat: no-repeat;
     background-attachment: local; /* Ensure the background scrolls with content */
-     /* Optional: Ensures the image covers the background space */
 }}
 
 @media (max-width: 768px) {{
@@ -171,15 +169,20 @@ upload = st.file_uploader(label="Upload Image or Video:", type=["png", "jpg", "j
 def resize_image(img_array, size=(640, 640)):
     return cv2.resize(img_array, size)
 
+# Function to normalize the image for better detection
+def normalize_image(img_array):
+    return img_array / 255.0
+
 # Function to make predictions
 def make_prediction(img):
-    # Resize image to 640x640 before making predictions
+    # Resize and normalize image before making predictions
     img_resized = resize_image(img)
-    results = model(img_resized)  # Perform detection
+    img_normalized = normalize_image(img_resized)
+    results = model(img_normalized)  # Perform detection
     return results
 
 # Function to create image with bounding boxes
-def create_image_with_bboxes(img_array, results):
+def create_image_with_bboxes(img_array, results, conf_threshold=0.5):
     labels, coords = results.xyxyn[0][:, -1], results.xyxyn[0][:, :-1]  # Labels and coordinates
     n = len(labels)
     img_height, img_width, _ = img_array.shape
@@ -187,11 +190,13 @@ def create_image_with_bboxes(img_array, results):
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
-        if row[4] >= 0.3:  # If confidence score is above threshold (e.g., 0.3)
+        if row[4] >= conf_threshold:  # Confidence threshold
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
-            img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
+            img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=3)  # Increased thickness
             label = model.names[int(labels[i])]  # Get the label
-            img_array = cv2.putText(img_array, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+
+            # Increased font size and thickness for better readability
+            img_array = cv2.putText(img_array, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255, 0, 0), 3)
 
     return img_array
 
@@ -215,43 +220,9 @@ if upload is not None:
     if upload.type.startswith("image"):
         img = Image.open(upload)
         img_array = np.array(img)
-
-        st.markdown('<div class="image-container">', unsafe_allow_html=True)
-        st.image(img, caption="Uploaded Image", use_column_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Run YOLOv5 prediction
-        prediction = make_prediction(img_array)
-        img_with_bbox = create_image_with_bboxes(img_array, prediction)
-
-        # Display image with bounding boxes
-        st.markdown('<div class="image-container">', unsafe_allow_html=True)
-        st.image(img_with_bbox, caption="Detected Objects", use_column_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        results = make_prediction(img_array)
+        img_with_bbox = create_image_with_bboxes(img_array, results)
+        st.image(img_with_bbox, caption="Uploaded Image", use_column_width=True)
 
     elif upload.type.startswith("video"):
         st.video(upload)
-
-        # OpenCV to read video
-        tfile = open("temp_video.mp4", "wb")
-        tfile.write(upload.read())
-        cap = cv2.VideoCapture("temp_video.mp4")
-
-        stframe = st.empty()  # Placeholder for video frame
-
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = make_prediction(frame_rgb)
-            frame_with_bbox = create_image_with_bboxes(frame_rgb, results)
-            stframe.image(frame_with_bbox, channels="RGB", use_column_width=True)
-
-        cap.release()
-        os.remove("temp_video.mp4")  # Clean up temporary file
-
-    else:
-        st.warning("Unsupported file type. Please upload an image or video.")
-
-
