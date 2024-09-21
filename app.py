@@ -232,7 +232,7 @@ class VideoTransformer(VideoTransformerBase):
 RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 # Streamlit WebRTC component for real-time camera feed
-webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, rtc_configuration=RTC_CONFIG, video_device_index=0)
+webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, rtc_configuration=RTC_CONFIG)
 
 if upload is not None:
     if upload.type.startswith("image"):
