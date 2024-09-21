@@ -229,10 +229,11 @@ class VideoTransformer(VideoTransformerBase):
         
 
 # WebRTC configuration
-RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+# WebRTC configuration
+RTC_CONFIG = RTCConfiguration({"iceServers": [{"urls": ["stun:stun1.l.google.com:19302"], "username": "", "credential": ""}]})
 
 # Streamlit WebRTC component for real-time camera feed
-webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, rtc_configuration=RTC_CONFIG)
+webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, rtc_configuration=RTC_CONFIG, media_stream_constraints={"video": True, "audio": False})
 
 if upload is not None:
     if upload.type.startswith("image"):
