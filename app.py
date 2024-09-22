@@ -191,7 +191,7 @@ def create_image_with_bboxes(img_array, results):
     # Loop through detections and draw bounding boxes
     for i in range(n):
         row = coords[i]
-        if row[4] >= 0.5:  # Confidence threshold
+        if row[4] >= 0.3:  # Confidence threshold
             x1, y1, x2, y2 = int(row[0] * img_width), int(row[1] * img_height), int(row[2] * img_width), int(row[3] * img_height)
             img_array = cv2.rectangle(img_array, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
             
