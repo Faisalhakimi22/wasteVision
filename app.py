@@ -11,8 +11,6 @@ import json
 import time
 from datetime import datetime
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
 from collections import defaultdict, Counter
 import threading
 import queue
@@ -412,7 +410,7 @@ def create_advanced_bbox_image(img_array, results, transform_params=None):
     return img_array
 
 def create_analytics_dashboard():
-    """Create advanced analytics dashboard"""
+    """Create advanced analytics dashboard using built-in Streamlit components"""
     st.markdown("## 📊 Detection Analytics")
     
     if not st.session_state.detection_history:
@@ -438,44 +436,80 @@ def create_analytics_dashboard():
         most_common = max(st.session_state.detection_stats.items(), key=lambda x: x[1])
         st.metric("Most Detected", f"{most_common[0]} ({most_common[1]})")
     
-    # Charts
+    # Charts using Streamlit built-in components
     col1, col2 = st.columns(2)
     
     with col1:
-        # Class distribution pie chart
-        fig_pie = px.pie(
-            values=list(st.session_state.detection_stats.values()),
-            names=list(st.session_state.detection_stats.keys()),
-            title="Detection Distribution by Class"
-        )
-        fig_pie.update_traces(textposition='inside', textinfo='percent+label')
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.markdown("#### Detection Distribution by Class")
+        # Create a DataFrame for the bar chart
+        stats_df = pd.DataFrame([
+            {'Class': class_name, 'Count': count, 'Percentage': f"{(count/total_detections)*100:.1f}%"} 
+            for class_name, count in st.session_state.detection_stats.items()
+        ])
+        stats_df = stats_df.sort_values('Count', ascending=False)
+        
+        # Display as bar chart
+        st.bar_chart(stats_df.set_index('Class')['Count'])
+        
+        # Show detailed breakdown
+        with st.expander("📋 Detailed Breakdown"):
+            st.dataframe(stats_df, use_container_width=True)
     
     with col2:
-        # Confidence distribution histogram
+        st.markdown("#### Confidence Score Analysis")
         confidences = [d['confidence'] for d in st.session_state.detection_history]
-        fig_hist = px.histogram(
-            x=confidences,
-            nbins=20,
-            title="Confidence Score Distribution",
-            labels={'x': 'Confidence Score', 'y': 'Frequency'}
-        )
-        st.plotly_chart(fig_hist, use_container_width=True)
+        
+        # Create confidence bins for histogram
+        bins = np.linspace(0, 1, 11)
+        hist, _ = np.histogram(confidences, bins=bins)
+        
+        # Create DataFrame for histogram
+        hist_df = pd.DataFrame({
+            'Confidence Range': [f"{bins[i]:.1f}-{bins[i+1]:.1f}" for i in range(len(bins)-1)],
+            'Frequency': hist
+        })
+        
+        st.bar_chart(hist_df.set_index('Confidence Range')['Frequency'])
+        
+        # Show confidence statistics
+        with st.expander("📊 Confidence Statistics"):
+            st.metric("Min Confidence", f"{min(confidences):.3f}")
+            st.metric("Max Confidence", f"{max(confidences):.3f}")
+            st.metric("Median Confidence", f"{np.median(confidences):.3f}")
+            st.metric("Std Deviation", f"{np.std(confidences):.3f}")
     
     # Detection timeline
     if len(st.session_state.detection_history) > 1:
+        st.markdown("#### Detection Activity Timeline")
         df = pd.DataFrame(st.session_state.detection_history)
         df['hour'] = df['timestamp'].dt.hour
         hourly_counts = df.groupby('hour').size().reset_index(name='detections')
         
-        fig_timeline = px.line(
-            hourly_counts, 
-            x='hour', 
-            y='detections',
-            title="Detection Activity Timeline",
-            labels={'hour': 'Hour of Day', 'detections': 'Number of Detections'}
-        )
-        st.plotly_chart(fig_timeline, use_container_width=True)
+        # Fill missing hours with 0 detections
+        all_hours = pd.DataFrame({'hour': range(24)})
+        hourly_counts = all_hours.merge(hourly_counts, on='hour', how='left').fillna(0)
+        
+        st.line_chart(hourly_counts.set_index('hour')['detections'])
+        
+        # Show peak activity time
+        peak_hour = hourly_counts.loc[hourly_counts['detections'].idxmax(), 'hour']
+        st.info(f"🕐 Peak activity time: {int(peak_hour)}:00 hours")
+    
+    # Recent detections table
+    st.markdown("#### Recent Detections")
+    recent_detections = st.session_state.detection_history[-10:]  # Last 10 detections
+    
+    if recent_detections:
+        recent_df = pd.DataFrame([
+            {
+                'Time': d['timestamp'].strftime('%H:%M:%S'),
+                'Object': d['class'],
+                'Confidence': f"{d['confidence']:.2%}",
+                'Bounding Box': f"({d['bbox'][0]}, {d['bbox'][1]}) - ({d['bbox'][2]}, {d['bbox'][3]})"
+            }
+            for d in recent_detections
+        ])
+        st.dataframe(recent_df, use_container_width=True)
 
 class AdvancedVideoTransformer(VideoTransformerBase):
     """Enhanced video transformer with performance optimizations"""
