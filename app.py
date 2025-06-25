@@ -76,7 +76,7 @@ def load_logo():
 # Modern professional CSS with advanced styling
 def get_advanced_css():
     logo_base64 = load_logo()
-    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; vertical-align: middle;">' if logo_base64 else ''
+    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));">' if logo_base64 else '<i class="fa-duotone fa-atom fa-2x fa-spin" style="font-size: 3rem; margin-right: 15px;"></i>'
     
     return f"""
     <style>
@@ -84,43 +84,35 @@ def get_advanced_css():
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
     
     /* Root variables for consistent theming */
-    :root {{
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    :root {
+        --primary-bg: #f4f6fa;
+        --header-bg: #e9eef6;
+        --container-bg: #fff;
+        --accent-bg: #e9eef6;
         --glass-bg: rgba(255, 255, 255, 0.1);
         --glass-border: rgba(255, 255, 255, 0.2);
-        --shadow-light: 0 8px 32px rgba(31, 38, 135, 0.37);
-        --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.1);
+        --shadow-light: 0 8px 32px rgba(31, 38, 135, 0.07);
+        --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.08);
         --border-radius: 20px;
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }}
+    }
     
     /* Global font and base styling */
-    html, body, [class*="css"] {{
+    html, body, [class*="css"] {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    }}
+        background: var(--primary-bg) !important;
+    }
     
-    /* Advanced gradient background with animation */
-    .stApp {{
-        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+    /* Modern solid background */
+    .stApp {
+        background: var(--primary-bg) !important;
         min-height: 100vh;
-    }}
-    
-    @keyframes gradientShift {{
-        0% {{ background-position: 0% 50%; }}
-        50% {{ background-position: 100% 50%; }}
-        100% {{ background-position: 0% 50%; }}
-    }}
+    }
     
     /* Glassmorphism main container */
-    .main-container {{
-        background: rgba(255, 255, 255, 0.95);
+    .main-container {
+        background: var(--container-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: var(--border-radius);
@@ -130,70 +122,55 @@ def get_advanced_css():
         border: 1px solid var(--glass-border);
         position: relative;
         overflow: hidden;
-    }}
+    }
     
-    .main-container::before {{
+    .main-container::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         height: 3px;
-        background: var(--primary-gradient);
-    }}
+        background: var(--accent-bg);
+    }
     
     /* Modern header with logo integration */
-    .header-container {{
+    .header-container {
         text-align: center;
         padding: 3rem 2rem;
         margin-bottom: 2rem;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+        background: var(--header-bg);
         backdrop-filter: blur(20px);
         border-radius: var(--border-radius);
-        color: white;
+        color: #222;
         box-shadow: var(--shadow-heavy);
         position: relative;
         overflow: hidden;
-    }}
+    }
     
-    .header-container::before {{
+    .header-container::before {
         content: '';
         position: absolute;
         top: -50%;
         left: -50%;
         width: 200%;
         height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-        background-size: 20px 20px;
-        animation: float 20s infinite linear;
+        background: none;
         pointer-events: none;
-    }}
+    }
     
-    @keyframes float {{
-        0% {{ transform: translate(-50%, -50%) rotate(0deg); }}
-        100% {{ transform: translate(-50%, -50%) rotate(360deg); }}
-    }}
-    
-    .logo-title-container {{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        position: relative;
-        z-index: 2;
-    }}
-    
-    .main-title {{
+    .main-title {
         font-size: clamp(2.5rem, 5vw, 4rem);
         font-weight: 800;
-        background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        color: #222;
         margin: 0;
         letter-spacing: -0.02em;
-    }}
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+        background-clip: unset;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    }
     
     .subtitle {{
         font-size: 1.25rem;
@@ -233,9 +210,9 @@ def get_advanced_css():
         background: rgba(255, 255, 255, 0.3);
     }}
     
-    /* Advanced metric cards with enhanced animations */
-    .metric-card {{
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+    /* Metric cards */
+    .metric-card {
+        background: var(--container-bg);
         backdrop-filter: blur(20px);
         padding: 2rem 1.5rem;
         border-radius: var(--border-radius);
@@ -247,56 +224,37 @@ def get_advanced_css():
         overflow: hidden;
         transition: var(--transition);
         cursor: pointer;
-    }}
-    
-    .metric-card::before {{
+    }
+    .metric-card::before {
         content: '';
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        background: none;
         transition: var(--transition);
-    }}
-    
-    .metric-card:hover {{
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    }}
-    
-    .metric-card:hover::before {{
-        left: 100%;
-    }}
-    
-    .metric-value {{
+    }
+    .metric-value {
         font-size: 2.5rem;
         font-weight: 700;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #667eea;
         margin: 0.5rem 0;
         font-family: 'JetBrains Mono', monospace;
-    }}
-    
-    .metric-label {{
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #64748b;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin: 0;
-    }}
-    
-    .metric-icon {{
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+        background-clip: unset;
+    }
+    .metric-icon {
         font-size: 2rem;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #667eea;
         margin-bottom: 0.5rem;
-    }}
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+        background-clip: unset;
+    }
     
     /* Enhanced detection cards */
     .detection-card {{
@@ -505,19 +463,23 @@ def get_advanced_css():
     }}
     
     /* Dark mode support */
-    @media (prefers-color-scheme: dark) {{
-        .main-container {{
-            background: rgba(30, 30, 30, 0.95);
+    @media (prefers-color-scheme: dark) {
+        .main-container {
+            background: #181c20;
             color: #ffffff;
-        }}
-        .metric-card {{
-            background: rgba(50, 50, 50, 0.9);
+        }
+        .metric-card {
+            background: #23272f;
             color: #ffffff;
-        }}
-        .detection-card {{
-            background: rgba(40, 40, 40, 0.95);
+        }
+        .detection-card {
+            background: #23272f;
             color: #ffffff;
-        }}
+        }
+        .header-container {
+            background: #23272f;
+            color: #fff;
+        }
     }}
     </style>
     """
@@ -525,7 +487,7 @@ def get_advanced_css():
 def create_modern_header():
     """Create modern header with logo and enhanced styling"""
     logo_base64 = load_logo()
-    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));">' if logo_base64 else '<i class="fas fa-brain" style="font-size: 3rem; margin-right: 15px;"></i>'
+    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));">' if logo_base64 else '<i class="fa-duotone fa-atom fa-2x fa-spin" style="font-size: 3rem; margin-right: 15px;"></i>'
     
     st.markdown(f"""
     <div class="header-container fade-in">
@@ -534,20 +496,20 @@ def create_modern_header():
             <div class="main-title">EcoVision AI</div>
         </div>
         <div class="subtitle">
-            <i class="fas fa-robot"></i> Next-Generation Object Detection & Analysis Platform
+            <i class="fa-duotone fa-robot-astromech fa-beat"></i> Next-Generation Object Detection & Analysis Platform
         </div>
         <div class="tech-stack">
             <div class="tech-badge">
-                <i class="fas fa-brain"></i> YOLOv5
+                <i class="fa-duotone fa-brain-circuit fa-fade"></i> YOLOv5
             </div>
             <div class="tech-badge">
-                <i class="fas fa-bolt"></i> Real-time Processing
+                <i class="fa-duotone fa-bolt-lightning fa-beat"></i> Real-time Processing
             </div>
             <div class="tech-badge">
-                <i class="fas fa-chart-line"></i> Smart Analytics
+                <i class="fa-duotone fa-chart-network fa-spin"></i> Smart Analytics
             </div>
             <div class="tech-badge">
-                <i class="fas fa-cloud"></i> Cloud-Ready
+                <i class="fa-brands fa-cloudversify fa-bounce"></i> Cloud-Ready
             </div>
         </div>
     </div>
@@ -560,7 +522,7 @@ def create_advanced_metrics_dashboard():
     with col1:
         st.markdown(f"""
         <div class="metric-card pulse-glow slide-in-left">
-            <div class="metric-icon"><i class="fas fa-search"></i></div>
+            <div class="metric-icon"><i class="fa-duotone fa-magnifying-glass-chart fa-beat"></i></div>
             <div class="metric-value">{st.session_state.total_detections:,}</div>
             <div class="metric-label">Total Detections</div>
         </div>
@@ -570,7 +532,7 @@ def create_advanced_metrics_dashboard():
         unique_objects = len(set([item['class'] for item in st.session_state.detection_history]))
         st.markdown(f"""
         <div class="metric-card slide-in-left" style="animation-delay: 0.1s;">
-            <div class="metric-icon"><i class="fas fa-cubes"></i></div>
+            <div class="metric-icon"><i class="fa-duotone fa-cubes-stacked fa-fade"></i></div>
             <div class="metric-value">{unique_objects}</div>
             <div class="metric-label">Unique Objects</div>
         </div>
@@ -580,7 +542,7 @@ def create_advanced_metrics_dashboard():
         avg_confidence = np.mean([item['confidence'] for item in st.session_state.detection_history]) if st.session_state.detection_history else 0
         st.markdown(f"""
         <div class="metric-card slide-in-right" style="animation-delay: 0.2s;">
-            <div class="metric-icon"><i class="fas fa-bullseye"></i></div>
+            <div class="metric-icon"><i class="fa-duotone fa-gauge-max fa-spin"></i></div>
             <div class="metric-value">{avg_confidence:.1%}</div>
             <div class="metric-label">Avg Confidence</div>
         </div>
@@ -590,7 +552,7 @@ def create_advanced_metrics_dashboard():
         session_duration = (datetime.now() - st.session_state.session_start_time).total_seconds() / 60
         st.markdown(f"""
         <div class="metric-card slide-in-right" style="animation-delay: 0.3s;">
-            <div class="metric-icon"><i class="fas fa-clock"></i></div>
+            <div class="metric-icon"><i class="fa-duotone fa-timer fa-beat"></i></div>
             <div class="metric-value">{session_duration:.1f}m</div>
             <div class="metric-label">Session Time</div>
         </div>
@@ -601,7 +563,7 @@ def create_advanced_analytics():
     if not st.session_state.detection_history:
         st.markdown("""
         <div style="text-align: center; padding: 3rem; background: rgba(255,255,255,0.1); border-radius: 20px; backdrop-filter: blur(10px);">
-            <i class="fas fa-chart-bar" style="font-size: 4rem; color: #667eea; margin-bottom: 1rem;"></i>
+            <i class="fa-duotone fa-chart-tree-map fa-4x fa-spin" style="color: #667eea; margin-bottom: 1rem;"></i>
             <h3 style="color: #667eea; margin-bottom: 1rem;">Analytics Dashboard</h3>
             <p style="color: #64748b;">Advanced analytics will appear here after your first detection session</p>
         </div>
@@ -1293,13 +1255,13 @@ def main():
         """
         <div style='text-align: center; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px); margin-top: 2rem;'>
             <div style='font-size: 1.2rem; margin-bottom: 1rem;'>
-                <i class='fas fa-heart' style='color: #ef4444;'></i> 
+                <i class='fa-duotone fa-heart-pulse fa-beat' style='color: #ef4444;'></i> 
                 <strong>EcoVision AI</strong> - Powered by Advanced Neural Networks
             </div>
             <div style='font-size: 0.9rem; opacity: 0.8;'>
-                <i class='fas fa-code'></i> Built with Streamlit & YOLOv5 | 
-                <i class='fas fa-copyright'></i> 2024 EcoVision Technologies | 
-                <i class='fas fa-globe'></i> Next-Gen AI Solutions
+                <i class='fa-duotone fa-code-compare fa-spin'></i> Built with Streamlit & YOLOv5 | 
+                <i class='fa-duotone fa-copyright'></i> 2024 EcoVision Technologies | 
+                <i class='fa-duotone fa-globe-pointer fa-bounce'></i> Next-Gen AI Solutions
             </div>
         </div>
         """,
