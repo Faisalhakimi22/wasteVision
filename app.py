@@ -1,4 +1,93 @@
-import streamlit as st
+def create_sidebar():
+    """Create professional sidebar with enhanced controls"""
+    
+    # Company branding in sidebar
+    logo_files = ["logo1.png", "logo.png", "company_logo.png", "sidebar_logo.png"]
+    sidebar_logo = None
+    
+    for logo_file in logo_files:
+        sidebar_logo = encode_image_to_base64(logo_file)
+        if sidebar_logo:
+            st.sidebar.markdown(f'<div style="text-align: center; padding: 20px 0;"><img src="data:image/png;base64,{sidebar_logo}" style="width: 120px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);" alt="Logo"></div>', unsafe_allow_html=True)
+            break
+    
+    st.sidebar.markdown('<div style="text-align: center; color: #f1f5f9; font-size: 1.2rem; font-weight: 600; margin-bottom: 30px;">Detection Controls</div>', unsafe_allow_html=True)
+    
+    # Professional section headers
+    st.sidebar.markdown('<div style="color: #3b82f6; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 24px 0 12px 0; border-bottom: 1px solid rgba(59, 130, 246, 0.3); padding-bottom: 4px;">🎯 MODEL SETTINGS</div>', unsafe_allow_html=True)
+    
+    # Model settings with professional styling
+    confidence = st.sidebar.slider(
+        "Confidence Threshold", 
+        0.1, 1.0, 0.3, 0.05,
+        help="Minimum confidence score for object detection"
+    )
+    
+    iou_threshold = st.sidebar.slider(
+        "IoU Threshold", 
+        0.1, 1.0, 0.45, 0.05,
+        help="Intersection over Union threshold for non-maximum suppression"
+    )
+    
+    max_detections = st.sidebar.slider(
+        "Max Detections", 
+        10, 200, 100, 10,
+        help="Maximum number of objects to detect per image"
+    )
+    
+    # Image enhancement section
+    st.sidebar.markdown('<div style="color: #8b5cf6; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 24px 0 12px 0; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 4px;">🎨 IMAGE ENHANCEMENT</div>', unsafe_allow_html=True)
+    
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        enhance_contrast = st.sidebar.checkbox("🔆 Contrast", False)
+        enhance_brightness = st.sidebar.checkbox("💡 Brightness", False)
+    with col2:
+        enhance_sharpness = st.sidebar.checkbox("🔍 Sharpness", False)
+        auto_enhance = st.sidebar.checkbox("⚡ Auto", False)
+    
+    # Performance settings
+    st.sidebar.markdown('<div style="color: #06b6d4; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 24px 0 12px 0; border-bottom: 1px solid rgba(6, 182, 212, 0.3); padding-bottom: 4px;">⚡ PERFORMANCE</div>', unsafe_allow_html=True)
+    
+    processing_speed = st.sidebar.select_slider(
+        "Processing Speed",
+        options=["Accurate", "Balanced", "Fast"],
+        value="Balanced",
+        help="Balance between accuracy and processing speed"
+    )
+    
+    batch_processing = st.sidebar.checkbox("📦 Batch Mode", False, help="Enable batch processing for multiple files")
+    
+    # Update model settings
+    if model:
+        model.conf = confidence
+        model.iou = iou_threshold
+        model.max_det = max_detections
+    
+    # Professional divider
+    st.sidebar.markdown('<div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(71, 85, 105, 0.5), transparent); margin: 30px 0;"></div>', unsafe_allow_html=True)
+    
+    # Company information section
+    st.sidebar.markdown('<div style="color: #f1f5f9; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 24px 0 12px 0;">🌱 ABOUT ECOVISION</div>', unsafe_allow_html=True)
+    
+    st.sidebar.markdown("""
+    <div style="color: #cbd5e1; font-size: 0.85rem; line-height: 1.6; padding: 16px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 1px solid rgba(71, 85, 105, 0.2);">
+    <strong style="color: #f1f5f9;">EcoVision AI</strong> revolutionizes environmental intelligence through cutting-edge computer vision technology.
+    <br><br>
+    <strong style="color: #3b82f6;">🎯 Core Features:</strong><br>
+    • Real-time object detection<br>
+    • Advanced analytics dashboard<br>
+    • Batch processing capabilities<br>
+    • Mobile-optimized interface<br>
+    • Environmental impact tracking<br>
+    <br>
+    <strong style="color: #8b5cf6;">🚀 Enterprise Ready:</strong><br>
+    Built for scale, security, and performance.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Version and status info
+    st.sidebar.markdown('<div style="text-align: center; margin-top: 20px; padding: 12px; background: rgba(15, 23, 42, 0.6); border-radius: 8px; border: 1px solid rgba(71, 85, 105, 0.2);">', unsafe_allowimport streamlit as st
 import torch
 import cv2
 import numpy as np
@@ -88,140 +177,440 @@ def encode_image_to_base64(image_path):
     return None
 
 def apply_custom_css():
-    """Apply enhanced custom CSS styling"""
-    page_bg_img = """
+    """Apply professional enterprise-grade CSS styling"""
+    
+    # Get background images if they exist
+    main_bg = encode_image_to_base64("background.png") or encode_image_to_base64("background.jpg") or encode_image_to_base64("bg.png") or encode_image_to_base64("bg.jpg")
+    sidebar_bg = encode_image_to_base64("sidebar_bg.png") or encode_image_to_base64("sidebar_bg.jpg") or encode_image_to_base64("new.jpeg")
+    
+    # Professional CSS with your custom backgrounds
+    professional_css = f"""
     <style>
-    /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+    /* Import Professional Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
     
-    /* Global Styling */
-    .main {
-        font-family: 'Roboto', sans-serif;
-    }
+    /* Global Reset and Base Styling */
+    * {{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }}
     
-    /* Main App Background */
-    [data-testid="stAppViewContainer"] > .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    html, body, [class*="css"] {{
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        color: #1a1a1a;
+        scroll-behavior: smooth;
+    }}
+    
+    /* Main App Container with Custom Background */
+    [data-testid="stAppViewContainer"] > .main {{
+        background: {'url("data:image/png;base64,' + main_bg + '")' if main_bg else 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)'};
+        background-size: cover;
+        background-position: center;
         background-attachment: fixed;
-    }
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        position: relative;
+    }}
     
-    /* Sidebar Styling */
-    [data-testid="stSidebar"] > div:first-child {
-        background: linear-gradient(180deg, #2C3E50 0%, #34495E 100%);
-        border-right: 3px solid #3498DB;
-    }
-    
-    /* Header Transparency */
-    [data-testid="stHeader"] {
-        background: rgba(0,0,0,0);
-    }
-    
-    /* Custom Cards */
-    .metric-card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px 0;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    }
-    
-    /* Logo and Title */
-    .logo {
+    /* Dark overlay for better text readability */
+    [data-testid="stAppViewContainer"] > .main::before {{
+        content: '';
         position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        z-index: 1000;
-        border-radius: 50%;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    }
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.7);
+        z-index: 0;
+    }}
     
-    .title {
+    /* All content above overlay */
+    [data-testid="stAppViewContainer"] > .main > * {{
+        position: relative;
+        z-index: 1;
+    }}
+    
+    /* Professional Sidebar */
+    [data-testid="stSidebar"] > div:first-child {{
+        background: {'url("data:image/png;base64,' + sidebar_bg + '")' if sidebar_bg else 'linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%)'};
+        background-size: cover;
+        background-position: center;
+        border-right: 1px solid rgba(71, 85, 105, 0.3);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }}
+    
+    /* Sidebar overlay */
+    [data-testid="stSidebar"] > div:first-child::before {{
+        content: '';
         position: absolute;
-        top: 160px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-weight: 700;
-        font-size: 2.5em;
-        color: white;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        z-index: 1000;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.85);
+        z-index: 0;
+    }}
+    
+    /* Sidebar content above overlay */
+    [data-testid="stSidebar"] > div:first-child > * {{
+        position: relative;
+        z-index: 1;
+    }}
+    
+    /* Remove default headers */
+    [data-testid="stHeader"] {{
+        background: transparent;
+        border-bottom: none;
+    }}
+    
+    /* Professional Header Section */
+    .header-container {{
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(71, 85, 105, 0.2);
+        border-radius: 24px;
+        padding: 40px;
+        margin: 20px auto;
+        max-width: 1200px;
         text-align: center;
-    }
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.5),
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+    }}
     
-    .subtitle {
+    .header-container::before {{
+        content: '';
         position: absolute;
-        top: 220px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-weight: 300;
-        font-size: 1.2em;
-        color: rgba(255,255,255,0.9);
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        z-index: 1000;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        animation: shimmer 3s infinite;
+    }}
+    
+    @keyframes shimmer {{
+        0% {{ left: -100%; }}
+        100% {{ left: 100%; }}
+    }}
+    
+    /* Logo Styling */
+    .company-logo {{
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        margin: 0 auto 20px;
+        display: block;
+        box-shadow: 
+            0 20px 25px -5px rgba(0, 0, 0, 0.4),
+            0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }}
+    
+    .company-logo:hover {{
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 
+            0 25px 30px -5px rgba(0, 0, 0, 0.5),
+            0 15px 15px -5px rgba(0, 0, 0, 0.3);
+    }}
+    
+    /* Typography */
+    .main-title {{
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }}
+    
+    .main-subtitle {{
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: #94a3b8;
+        margin-bottom: 32px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+    }}
+    
+    /* Content Cards */
+    .content-card {{
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(71, 85, 105, 0.2);
+        border-radius: 16px;
+        padding: 32px;
+        margin: 24px 0;
+        box-shadow: 
+            0 20px 25px -5px rgba(0, 0, 0, 0.3),
+            0 10px 10px -5px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }}
+    
+    .content-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 
+            0 25px 30px -5px rgba(0, 0, 0, 0.4),
+            0 15px 15px -5px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border-color: rgba(71, 85, 105, 0.3);
+    }}
+    
+    /* Metric Cards */
+    .metric-card {{
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(71, 85, 105, 0.2);
+        border-radius: 12px;
+        padding: 24px;
         text-align: center;
-        max-width: 80%;
-    }
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }}
     
-    /* Content Container */
-    .container {
-        margin-top: 280px;
-        padding: 20px;
-    }
+    .metric-card::before {{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+    }}
     
-    /* Detection Results */
-    .detection-result {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px 0;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
+    .metric-card:hover {{
+        transform: translateY(-4px);
+        border-color: rgba(59, 130, 246, 0.4);
+        box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.2);
+    }}
     
-    /* Progress Bar Styling */
-    .stProgress > div > div > div > div {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    /* Button Styling */
-    .stButton > button {
-        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    /* Professional Buttons */
+    .stButton > button {{
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         color: white;
         border: none;
-        border-radius: 25px;
-        padding: 10px 25px;
+        border-radius: 12px;
+        padding: 12px 32px;
         font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
+        font-size: 0.95rem;
+        letter-spacing: 0.025em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 
+            0 10px 15px -3px rgba(59, 130, 246, 0.3),
+            0 4px 6px -2px rgba(59, 130, 246, 0.1);
+        position: relative;
+        overflow: hidden;
+    }}
     
-    .stButton > button:hover {
+    .stButton > button:hover {{
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
+        box-shadow: 
+            0 15px 25px -5px rgba(59, 130, 246, 0.4),
+            0 8px 10px -5px rgba(59, 130, 246, 0.2);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }}
+    
+    .stButton > button:active {{
+        transform: translateY(0);
+    }}
+    
+    /* Tab Styling */
+    .stTabs [data-baseweb="tab-list"] {{
+        gap: 8px;
+        background: rgba(15, 23, 42, 0.6);
+        padding: 8px;
+        border-radius: 12px;
+        border: 1px solid rgba(71, 85, 105, 0.2);
+    }}
+    
+    .stTabs [data-baseweb="tab"] {{
+        background: transparent;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-weight: 500;
+        padding: 12px 24px;
+        transition: all 0.3s ease;
+    }}
+    
+    .stTabs [aria-selected="true"] {{
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }}
+    
+    /* Progress Bar */
+    .stProgress > div > div > div > div {{
+        background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+        border-radius: 4px;
+    }}
+    
+    /* File Uploader */
+    .stFileUploader > div > div {{
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px dashed rgba(71, 85, 105, 0.4);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }}
+    
+    .stFileUploader > div > div:hover {{
+        border-color: rgba(59, 130, 246, 0.6);
+        background: rgba(59, 130, 246, 0.05);
+    }}
+    
+    /* Sidebar Text Colors */
+    .stSidebar .stMarkdown {{
+        color: #e2e8f0;
+    }}
+    
+    .stSidebar h1, .stSidebar h2, .stSidebar h3 {{
+        color: #f1f5f9;
+    }}
+    
+    /* Dataframes */
+    .stDataFrame {{
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(71, 85, 105, 0.2);
+    }}
+    
+    /* Metrics */
+    [data-testid="metric-container"] {{
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(71, 85, 105, 0.2);
+        border-radius: 12px;
+        padding: 16px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }}
+    
+    /* Charts */
+    .stPlotlyChart {{
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(71, 85, 105, 0.2);
+        padding: 16px;
+    }}
     
     /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-        .logo { top: 10px; width: 80px; }
-        .title { top: 100px; font-size: 1.8em; }
-        .subtitle { top: 140px; font-size: 1em; }
-        .container { margin-top: 200px; }
-    }
+    @media (max-width: 768px) {{
+        .main-title {{
+            font-size: 2.5rem;
+        }}
+        
+        .main-subtitle {{
+            font-size: 1.1rem;
+        }}
+        
+        .header-container {{
+            padding: 24px;
+            margin: 12px;
+        }}
+        
+        .content-card {{
+            padding: 20px;
+            margin: 16px 0;
+        }}
+        
+        .company-logo {{
+            width: 60px;
+            height: 60px;
+        }}
+    }}
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {{
+        width: 8px;
+    }}
+    
+    ::-webkit-scrollbar-track {{
+        background: rgba(15, 23, 42, 0.3);
+        border-radius: 4px;
+    }}
+    
+    ::-webkit-scrollbar-thumb {{
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        border-radius: 4px;
+    }}
+    
+    ::-webkit-scrollbar-thumb:hover {{
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+    }}
+    
+    /* Success/Info/Warning Messages */
+    .stSuccess {{
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        border-radius: 12px;
+    }}
+    
+    .stInfo {{
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        border-radius: 12px;
+    }}
+    
+    .stWarning {{
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: 12px;
+    }}
+    
+    /* Loading Spinner */
+    .stSpinner > div {{
+        border-top-color: #3b82f6 !important;
+    }}
     </style>
     """
-    st.markdown(page_bg_img, unsafe_allow_html=True)
+    
+    st.markdown(professional_css, unsafe_allow_html=True)
 
 def create_header():
-    """Create enhanced header with logo and title"""
-    logo_base64 = encode_image_to_base64("logo1.png")
-    if logo_base64:
-        st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="logo" alt="Logo">', unsafe_allow_html=True)
+    """Create professional header with company branding"""
     
-    st.markdown('<div class="title">🔍 EcoVision AI</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subtitle">Advanced Object Detection & Analytics Platform</div>', unsafe_allow_html=True)
+    # Professional header container
+    st.markdown('<div class="header-container">', unsafe_allow_html=True)
+    
+    # Company logo - try multiple possible logo file names
+    logo_files = ["logo1.png", "logo.png", "company_logo.png", "brand_logo.png", "logo1.jpg", "logo.jpg"]
+    logo_base64 = None
+    
+    for logo_file in logo_files:
+        logo_base64 = encode_image_to_base64(logo_file)
+        if logo_base64:
+            break
+    
+    if logo_base64:
+        st.markdown(f'<img src="data:image/png;base64,{logo_base64}" class="company-logo" alt="Company Logo">', unsafe_allow_html=True)
+    else:
+        # Fallback: Create a professional text logo
+        st.markdown('<div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 20px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1.5rem;">EV</div>', unsafe_allow_html=True)
+    
+    # Professional title and subtitle
+    st.markdown('<h1 class="main-title">EcoVision AI</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="main-subtitle">Enterprise-Grade Object Detection & Environmental Intelligence Platform</p>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def create_sidebar():
     """Create enhanced sidebar with controls and information"""
