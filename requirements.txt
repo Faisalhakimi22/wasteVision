@@ -15,6 +15,7 @@ tqdm
 ultralytics # https://ultralytics.com
 torchvision 
 torchaudio
+plotly
 
 # Streamlit and its dependencies
 streamlit
