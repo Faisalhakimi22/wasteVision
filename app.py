@@ -8,8 +8,6 @@ import warnings
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration
 import base64
 import time
-import plotly.express as px
-import plotly.graph_objects as go
 from collections import Counter
 import pandas as pd
 
@@ -643,51 +641,55 @@ with tab2:
         col1, col2 = st.columns(2)
         
         with col1:
-            # Class distribution
+            # Class distribution using Streamlit's built-in charts
+            st.markdown("#### 🎯 Object Class Distribution")
             class_counts = df['class'].value_counts()
-            fig_pie = px.pie(
-                values=class_counts.values,
-                names=class_counts.index,
-                title="Object Class Distribution",
-                color_discrete_sequence=px.colors.qualitative.Set3
-            )
-            fig_pie.update_layout(
-                paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='rgba(0,0,0,0)',
-                font_color='white'
-            )
-            st.plotly_chart(fig_pie, use_container_width=True)
+            
+            # Create a simple pie chart data display
+            st.write("**Detection Breakdown:**")
+            for class_name, count in class_counts.items():
+                percentage = (count / len(df)) * 100
+                st.write(f"• **{class_name}**: {count} detections ({percentage:.1f}%)")
+            
+            # Use Streamlit's built-in pie chart (if available) or bar chart as fallback
+            try:
+                st.bar_chart(class_counts)
+            except:
+                st.write(class_counts)
         
         with col2:
             # Confidence distribution
-            fig_hist = px.histogram(
-                df, x='confidence',
-                title="Confidence Score Distribution",
-                nbins=20,
-                color_discrete_sequence=['#667eea']
-            )
-            fig_hist.update_layout(
-                paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='rgba(0,0,0,0)',
-                font_color='white'
-            )
-            st.plotly_chart(fig_hist, use_container_width=True)
+            st.markdown("#### 📊 Confidence Analysis")
+            
+            # Calculate confidence statistics
+            avg_confidence = df['confidence'].mean()
+            min_confidence = df['confidence'].min()
+            max_confidence = df['confidence'].max()
+            std_confidence = df['confidence'].std()
+            
+            st.metric("Average Confidence", f"{avg_confidence:.2%}")
+            st.metric("Min Confidence", f"{min_confidence:.2%}")
+            st.metric("Max Confidence", f"{max_confidence:.2%}")
+            st.metric("Std Deviation", f"{std_confidence:.3f}")
+            
+            # Simple histogram using bar chart
+            confidence_bins = pd.cut(df['confidence'], bins=10)
+            confidence_hist = confidence_bins.value_counts().sort_index()
+            st.bar_chart(confidence_hist)
         
-        # Detection timeline
-        st.markdown("#### 📈 Detection Timeline")
-        timeline_data = df.groupby('class').size().reset_index(name='count')
-        fig_bar = px.bar(
-            timeline_data, x='class', y='count',
-            title="Objects Detected by Class",
-            color='count',
-            color_continuous_scale='Viridis'
-        )
-        fig_bar.update_layout(
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            font_color='white'
-        )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        # Detection summary table
+        st.markdown("#### 📈 Detection Summary Table")
+        summary_df = df.groupby('class').agg({
+            'confidence': ['count', 'mean', 'min', 'max']
+        }).round(3)
+        summary_df.columns = ['Count', 'Avg Confidence', 'Min Confidence', 'Max Confidence']
+        st.dataframe(summary_df, use_container_width=True)
+        
+        # Recent detections
+        st.markdown("#### 🕒 Recent Detections")
+        recent_detections = df.tail(10)[['class', 'confidence']].reset_index(drop=True)
+        recent_detections.index = range(1, len(recent_detections) + 1)
+        st.dataframe(recent_detections, use_container_width=True)
         
     else:
         st.info("📊 No detection data available yet. Upload some images or videos to see analytics!")
