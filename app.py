@@ -73,6 +73,12 @@ def load_logo():
         st.warning("⚠️ Logo file 'logo1.png' not found in current directory")
         return None
 
+# Add background image as base64 for Streamlit static serving
+def get_bg_base64():
+    with open("background1.jpeg", "rb") as f:
+        return base64.b64encode(f.read()).decode()
+bg_base64 = get_bg_base64()
+
 # Modern professional CSS with advanced styling
 def get_advanced_css():
     logo_base64 = load_logo()
@@ -84,7 +90,7 @@ def get_advanced_css():
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
     
     /* Root variables for consistent theming */
-    :root {
+    :root {{
         --primary-bg: #f4f6fa;
         --header-bg: #e9eef6;
         --container-bg: #fff;
@@ -95,23 +101,39 @@ def get_advanced_css():
         --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.08);
         --border-radius: 20px;
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    }}
     
     /* Global font and base styling */
-    html, body, [class*="css"] {
+    html, body, [class*="css"] {{
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
         background: var(--primary-bg) !important;
-    }
+    }}
     
-    /* Modern solid background */
-    .stApp {
-        background: var(--primary-bg) !important;
+    /* Modern solid background with image */
+    .stApp {{
+        background: url('data:image/jpeg;base64,{bg_base64}') no-repeat center center fixed !important;
+        background-size: cover !important;
         min-height: 100vh;
-    }
+        position: relative;
+    }}
+    /* Overlay for readability */
+    .stApp::before {{
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(244,246,250,0.85);
+        z-index: 0;
+        pointer-events: none;
+    }}
+    /* Ensure main content is above overlay */
+    .main-container, .header-container, .sidebar-content, .block-container {{
+        position: relative;
+        z-index: 1;
+    }}
     
     /* Glassmorphism main container */
-    .main-container {
+    .main-container {{
         background: var(--container-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -122,9 +144,9 @@ def get_advanced_css():
         border: 1px solid var(--glass-border);
         position: relative;
         overflow: hidden;
-    }
+    }}
     
-    .main-container::before {
+    .main-container::before {{
         content: '';
         position: absolute;
         top: 0;
@@ -132,10 +154,10 @@ def get_advanced_css():
         right: 0;
         height: 3px;
         background: var(--accent-bg);
-    }
+    }}
     
     /* Modern header with logo integration */
-    .header-container {
+    .header-container {{
         text-align: center;
         padding: 3rem 2rem;
         margin-bottom: 2rem;
@@ -146,9 +168,9 @@ def get_advanced_css():
         box-shadow: var(--shadow-heavy);
         position: relative;
         overflow: hidden;
-    }
+    }}
     
-    .header-container::before {
+    .header-container::before {{
         content: '';
         position: absolute;
         top: -50%;
@@ -157,9 +179,9 @@ def get_advanced_css():
         height: 200%;
         background: none;
         pointer-events: none;
-    }
+    }}
     
-    .main-title {
+    .main-title {{
         font-size: clamp(2.5rem, 5vw, 4rem);
         font-weight: 800;
         color: #222;
@@ -170,7 +192,7 @@ def get_advanced_css():
         -webkit-text-fill-color: unset;
         background-clip: unset;
         text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-    }
+    }}
     
     .subtitle {{
         font-size: 1.25rem;
@@ -211,7 +233,7 @@ def get_advanced_css():
     }}
     
     /* Metric cards */
-    .metric-card {
+    .metric-card {{
         background: var(--container-bg);
         backdrop-filter: blur(20px);
         padding: 2rem 1.5rem;
@@ -224,8 +246,8 @@ def get_advanced_css():
         overflow: hidden;
         transition: var(--transition);
         cursor: pointer;
-    }
-    .metric-card::before {
+    }}
+    .metric-card::before {{
         content: '';
         position: absolute;
         top: 0;
@@ -234,8 +256,8 @@ def get_advanced_css():
         height: 100%;
         background: none;
         transition: var(--transition);
-    }
-    .metric-value {
+    }}
+    .metric-value {{
         font-size: 2.5rem;
         font-weight: 700;
         color: #667eea;
@@ -245,8 +267,8 @@ def get_advanced_css():
         -webkit-background-clip: unset;
         -webkit-text-fill-color: unset;
         background-clip: unset;
-    }
-    .metric-icon {
+    }}
+    .metric-icon {{
         font-size: 2rem;
         color: #667eea;
         margin-bottom: 0.5rem;
@@ -254,7 +276,7 @@ def get_advanced_css():
         -webkit-background-clip: unset;
         -webkit-text-fill-color: unset;
         background-clip: unset;
-    }
+    }}
     
     /* Enhanced detection cards */
     .detection-card {{
@@ -464,22 +486,22 @@ def get_advanced_css():
     
     /* Dark mode support */
     @media (prefers-color-scheme: dark) {
-        .main-container {
+        .main-container {{
             background: #181c20;
             color: #ffffff;
-        }
-        .metric-card {
+        }}
+        .metric-card {{
             background: #23272f;
             color: #ffffff;
-        }
-        .detection-card {
+        }}
+        .detection-card {{
             background: #23272f;
             color: #ffffff;
-        }
-        .header-container {
+        }}
+        .header-container {{
             background: #23272f;
             color: #fff;
-        }
+        }}
     }}
     </style>
     """
