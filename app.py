@@ -82,32 +82,48 @@ bg_base64 = get_bg_base64()
 # Modern professional CSS with advanced styling
 def get_advanced_css():
     logo_base64 = load_logo()
-    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));">' if logo_base64 else '<i class="fa-duotone fa-atom fa-2x fa-spin" style="font-size: 3rem; margin-right: 15px;"></i>'
+    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));">' if logo_base64 else '<i class="fas fa-atom" style="font-size: 2.5rem; margin-right: 15px;"></i>'
     
     return f"""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
     
     /* Root variables for consistent theming */
     :root {{
-        --primary-bg: #f4f6fa;
-        --header-bg: #e9eef6;
-        --container-bg: #fff;
-        --accent-bg: #e9eef6;
-        --glass-bg: rgba(255, 255, 255, 0.1);
-        --glass-border: rgba(255, 255, 255, 0.2);
-        --shadow-light: 0 8px 32px rgba(31, 38, 135, 0.07);
-        --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.08);
-        --border-radius: 20px;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --primary-color: #0f62fe;
+        --primary-light: #4589ff;
+        --primary-dark: #0043ce;
+        --secondary-color: #393939;
+        --text-primary: #161616;
+        --text-secondary: #525252;
+        --text-tertiary: #6f6f6f;
+        --background-primary: #ffffff;
+        --background-secondary: #f4f4f4;
+        --background-tertiary: #e0e0e0;
+        --success-color: #24a148;
+        --warning-color: #f1c21b;
+        --error-color: #da1e28;
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+        --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-xxl: 3rem;
+        --transition: all 0.2s ease;
     }}
     
     /* Global font and base styling */
     html, body, [class*="css"] {{
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-        background: var(--primary-bg) !important;
+        background: var(--background-primary) !important;
+        color: var(--text-primary);
     }}
     
     /* Modern solid background with image */
@@ -117,33 +133,32 @@ def get_advanced_css():
         min-height: 100vh;
         position: relative;
     }}
+    
     /* Overlay for readability */
     .stApp::before {{
         content: '';
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(244,246,250,0.85);
+        background: rgba(255,255,255,0.92);
         z-index: 0;
         pointer-events: none;
     }}
+    
     /* Ensure main content is above overlay */
     .main-container, .header-container, .sidebar-content, .block-container {{
         position: relative;
         z-index: 1;
     }}
     
-    /* Glassmorphism main container */
+    /* Professional main container */
     .main-container {{
-        background: var(--container-bg);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: var(--border-radius);
-        padding: 2rem;
-        margin: 1rem;
-        box-shadow: var(--shadow-light);
-        border: 1px solid var(--glass-border);
+        background: var(--background-primary);
+        border-radius: var(--border-radius-lg);
+        padding: var(--spacing-xl);
+        margin: var(--spacing-md);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--background-tertiary);
         position: relative;
-        overflow: hidden;
     }}
     
     .main-container::before {{
@@ -153,306 +168,210 @@ def get_advanced_css():
         left: 0;
         right: 0;
         height: 3px;
-        background: var(--accent-bg);
+        background: var(--primary-color);
     }}
     
-    /* Modern header with logo integration */
+    /* Professional header */
     .header-container {{
         text-align: center;
-        padding: 3rem 2rem;
-        margin-bottom: 2rem;
-        background: var(--header-bg);
-        backdrop-filter: blur(20px);
-        border-radius: var(--border-radius);
-        color: #222;
-        box-shadow: var(--shadow-heavy);
-        position: relative;
-        overflow: hidden;
-    }}
-    
-    .header-container::before {{
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: none;
-        pointer-events: none;
+        padding: var(--spacing-xxl) var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+        background: var(--background-secondary);
+        border-radius: var(--border-radius-lg);
+        color: var(--text-primary);
+        box-shadow: var(--shadow-sm);
     }}
     
     .main-title {{
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        font-weight: 800;
-        color: #222;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
         margin: 0;
-        letter-spacing: -0.02em;
-        background: none;
-        -webkit-background-clip: unset;
-        -webkit-text-fill-color: unset;
-        background-clip: unset;
-        text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        letter-spacing: -0.01em;
     }}
     
     .subtitle {{
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         font-weight: 400;
-        opacity: 0.95;
-        margin-bottom: 1rem;
-        position: relative;
-        z-index: 2;
+        color: var(--text-secondary);
+        margin-bottom: var(--spacing-md);
     }}
     
     .tech-stack {{
-        font-size: 0.9rem;
-        opacity: 0.8;
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
+        gap: var(--spacing-md);
         flex-wrap: wrap;
-        position: relative;
-        z-index: 2;
     }}
     
     .tech-badge {{
-        background: rgba(255, 255, 255, 0.2);
-        padding: 0.5rem 1rem;
+        background: var(--background-primary);
+        padding: var(--spacing-sm) var(--spacing-md);
         border-radius: 25px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid var(--background-tertiary);
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: var(--spacing-sm);
         transition: var(--transition);
     }}
     
     .tech-badge:hover {{
         transform: translateY(-2px);
-        background: rgba(255, 255, 255, 0.3);
+        box-shadow: var(--shadow-sm);
     }}
     
-    /* Metric cards */
+    /* Professional metric cards */
     .metric-card {{
-        background: var(--container-bg);
-        backdrop-filter: blur(20px);
-        padding: 2rem 1.5rem;
-        border-radius: var(--border-radius);
+        background: var(--background-primary);
+        padding: var(--spacing-lg) var(--spacing-md);
+        border-radius: var(--border-radius-md);
         text-align: center;
-        box-shadow: var(--shadow-light);
-        margin-bottom: 1rem;
-        border: 1px solid var(--glass-border);
-        position: relative;
-        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-md);
+        border: 1px solid var(--background-tertiary);
         transition: var(--transition);
-        cursor: pointer;
-    }}
-    .metric-card::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: none;
-        transition: var(--transition);
-    }}
-    .metric-value {{
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #667eea;
-        margin: 0.5rem 0;
-        font-family: 'JetBrains Mono', monospace;
-        background: none;
-        -webkit-background-clip: unset;
-        -webkit-text-fill-color: unset;
-        background-clip: unset;
-    }}
-    .metric-icon {{
-        font-size: 2rem;
-        color: #667eea;
-        margin-bottom: 0.5rem;
-        background: none;
-        -webkit-background-clip: unset;
-        -webkit-text-fill-color: unset;
-        background-clip: unset;
     }}
     
-    /* Enhanced detection cards */
+    .metric-card:hover {{
+        box-shadow: var(--shadow-md);
+    }}
+    
+    .metric-value {{
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin: var(--spacing-sm) 0;
+        font-family: 'JetBrains Mono', monospace;
+    }}
+    
+    .metric-icon {{
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: var(--spacing-sm);
+    }}
+    
+    .metric-label {{
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+    }}
+    
+    /* Professional detection cards */
     .detection-card {{
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        padding: 1.5rem;
-        border-radius: 15px;
-        box-shadow: var(--shadow-light);
-        margin: 1rem 0;
-        border-left: 4px solid transparent;
-        border-image: var(--primary-gradient) 1;
-        position: relative;
+        background: var(--background-primary);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        margin: var(--spacing-md) 0;
+        border-left: 3px solid var(--primary-color);
         transition: var(--transition);
     }}
     
     .detection-card:hover {{
-        transform: translateX(5px);
-        box-shadow: var(--shadow-heavy);
+        transform: translateX(2px);
+        box-shadow: var(--shadow-md);
     }}
     
-    .detection-card::before {{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        background: var(--primary-gradient);
-        border-radius: 0 2px 2px 0;
-    }}
-    
-    /* Modern button styling */
+    /* Professional button styling */
     .stButton > button {{
-        background: var(--primary-gradient);
+        background: var(--primary-color);
         color: white;
         border: none;
-        border-radius: 12px;
-        padding: 0.75rem 2rem;
-        font-weight: 600;
-        font-size: 0.95rem;
+        border-radius: var(--border-radius-sm);
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
         transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        position: relative;
-        overflow: hidden;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }}
-    
-    .stButton > button::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+        text-transform: none;
+        letter-spacing: 0.01em;
     }}
     
     .stButton > button:hover {{
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-    }}
-    
-    .stButton > button:hover::before {{
-        left: 100%;
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
     }}
     
     .stButton > button:active {{
-        transform: translateY(-1px);
+        transform: translateY(0);
     }}
     
     /* Enhanced sidebar styling */
     .css-1d391kg {{
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-right: 1px solid var(--glass-border);
+        background: var(--background-primary);
+        border-right: 1px solid var(--background-tertiary);
     }}
     
     /* Modern progress bar */
     .stProgress > div > div > div > div {{
-        background: var(--primary-gradient);
-        border-radius: 10px;
+        background: var(--primary-color);
+        border-radius: var(--border-radius-sm);
     }}
     
     /* File uploader enhancement */
     .stFileUploader > div > div {{
-        background: rgba(255, 255, 255, 0.9);
-        border: 2px dashed #667eea;
-        border-radius: var(--border-radius);
-        padding: 3rem 2rem;
+        background: var(--background-primary);
+        border: 2px dashed var(--primary-light);
+        border-radius: var(--border-radius-md);
+        padding: var(--spacing-xxl) var(--spacing-xl);
         transition: var(--transition);
-        position: relative;
-        overflow: hidden;
     }}
     
     .stFileUploader > div > div:hover {{
-        border-color: #764ba2;
-        background: rgba(255, 255, 255, 0.95);
-        transform: scale(1.02);
+        border-color: var(--primary-dark);
+        background: var(--background-secondary);
     }}
     
-    /* Advanced animations */
+    /* Subtle animations */
     .fade-in {{
-        animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: fadeIn 0.5s ease-out;
     }}
     
     @keyframes fadeIn {{
-        from {{ opacity: 0; transform: translateY(30px); }}
+        from {{ opacity: 0; transform: translateY(10px); }}
         to {{ opacity: 1; transform: translateY(0); }}
-    }}
-    
-    .slide-in-left {{
-        animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }}
-    
-    @keyframes slideInLeft {{
-        from {{ opacity: 0; transform: translateX(-50px); }}
-        to {{ opacity: 1; transform: translateX(0); }}
-    }}
-    
-    .slide-in-right {{
-        animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }}
-    
-    @keyframes slideInRight {{
-        from {{ opacity: 0; transform: translateX(50px); }}
-        to {{ opacity: 1; transform: translateX(0); }}
-    }}
-    
-    .pulse-glow {{
-        animation: pulseGlow 2s infinite;
-    }}
-    
-    @keyframes pulseGlow {{
-        0%, 100% {{ box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }}
-        50% {{ box-shadow: 0 0 40px rgba(102, 126, 234, 0.8); }}
     }}
     
     /* Status indicators */
     .status-indicator {{
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: 25px;
-        font-size: 0.85rem;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--border-radius-sm);
+        font-size: 0.8125rem;
         font-weight: 500;
-        margin: 0.25rem;
+        margin: var(--spacing-xs);
     }}
     
     .status-online {{
-        background: rgba(34, 197, 94, 0.1);
-        color: #16a34a;
-        border: 1px solid rgba(34, 197, 94, 0.2);
+        background: rgba(36, 161, 72, 0.1);
+        color: var(--success-color);
+        border: 1px solid rgba(36, 161, 72, 0.2);
     }}
     
     .status-processing {{
-        background: rgba(251, 191, 36, 0.1);
-        color: #d97706;
-        border: 1px solid rgba(251, 191, 36, 0.2);
+        background: rgba(241, 194, 27, 0.1);
+        color: var(--warning-color);
+        border: 1px solid rgba(241, 194, 27, 0.2);
     }}
     
     .status-offline {{
-        background: rgba(239, 68, 68, 0.1);
-        color: #dc2626;
-        border: 1px solid rgba(239, 68, 68, 0.2);
+        background: rgba(218, 30, 40, 0.1);
+        color: var(--error-color);
+        border: 1px solid rgba(218, 30, 40, 0.2);
     }}
     
     /* Loading spinner */
     .loading-spinner {{
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 2px solid rgba(102, 126, 234, 0.3);
-        border-top: 2px solid #667eea;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(15, 98, 254, 0.2);
+        border-top: 2px solid var(--primary-color);
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }}
@@ -465,42 +384,74 @@ def get_advanced_css():
     /* Responsive design */
     @media (max-width: 768px) {{
         .main-title {{
-            font-size: 2rem;
+            font-size: 1.75rem;
         }}
         .main-container {{
-            margin: 0.5rem;
-            padding: 1rem;
+            margin: var(--spacing-sm);
+            padding: var(--spacing-md);
         }}
         .header-container {{
-            padding: 2rem 1rem;
+            padding: var(--spacing-xl) var(--spacing-md);
         }}
         .logo-title-container {{
             flex-direction: column;
-            gap: 1rem;
+            gap: var(--spacing-md);
         }}
         .tech-stack {{
             flex-direction: column;
-            gap: 0.5rem;
+            gap: var(--spacing-sm);
         }}
     }}
     
     /* Dark mode support */
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {{
+        :root {{
+            --primary-color: #4589ff;
+            --primary-light: #78a9ff;
+            --primary-dark: #0043ce;
+            --text-primary: #f4f4f4;
+            --text-secondary: #c6c6c6;
+            --text-tertiary: #a8a8a8;
+            --background-primary: #161616;
+            --background-secondary: #262626;
+            --background-tertiary: #393939;
+        }}
+        
+        .stApp::before {{
+            background: rgba(22, 22, 22, 0.92);
+        }}
+        
         .main-container {{
-            background: #181c20;
-            color: #ffffff;
+            background: var(--background-primary);
+            color: var(--text-primary);
+            border-color: var(--background-tertiary);
         }}
+        
         .metric-card {{
-            background: #23272f;
-            color: #ffffff;
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            border-color: var(--background-tertiary);
         }}
+        
         .detection-card {{
-            background: #23272f;
-            color: #ffffff;
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            border-color: var(--primary-color);
         }}
+        
         .header-container {{
-            background: #23272f;
-            color: #fff;
+            background: var(--background-secondary);
+            color: var(--text-primary);
+        }}
+        
+        .tech-badge {{
+            background: var(--background-primary);
+            border-color: var(--background-tertiary);
+            color: var(--text-secondary);
+        }}
+        
+        .stFileUploader > div > div {{
+            background: var(--background-secondary);
         }}
     }}
     </style>
@@ -509,29 +460,29 @@ def get_advanced_css():
 def create_modern_header():
     """Create modern header with logo and enhanced styling"""
     logo_base64 = load_logo()
-    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));">' if logo_base64 else '<i class="fa-duotone fa-atom fa-2x fa-spin" style="font-size: 3rem; margin-right: 15px;"></i>'
+    logo_html = f'<img src="data:image/png;base64,{logo_base64}" style="height: 60px; margin-right: 15px; filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));">' if logo_base64 else '<i class="fas fa-atom" style="font-size: 2.5rem; margin-right: 15px;"></i>'
     
     st.markdown(f"""
     <div class="header-container fade-in">
-        <div class="logo-title-container">
+        <div class="logo-title-container" style="display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
             {logo_html}
             <div class="main-title">EcoVision AI</div>
         </div>
         <div class="subtitle">
-            <i class="fa-duotone fa-robot-astromech fa-beat"></i> Next-Generation Object Detection & Analysis Platform
+            <i class="fas fa-robot"></i> Next-Generation Object Detection & Analysis Platform
         </div>
         <div class="tech-stack">
             <div class="tech-badge">
-                <i class="fa-duotone fa-brain-circuit fa-fade"></i> YOLOv5
+                <i class="fas fa-brain"></i> YOLOv5
             </div>
             <div class="tech-badge">
-                <i class="fa-duotone fa-bolt-lightning fa-beat"></i> Real-time Processing
+                <i class="fas fa-bolt"></i> Real-time Processing
             </div>
             <div class="tech-badge">
-                <i class="fa-duotone fa-chart-network fa-spin"></i> Smart Analytics
+                <i class="fas fa-chart-network"></i> Smart Analytics
             </div>
             <div class="tech-badge">
-                <i class="fa-brands fa-cloudversify fa-bounce"></i> Cloud-Ready
+                <i class="fas fa-cloud"></i> Cloud-Ready
             </div>
         </div>
     </div>
@@ -543,8 +494,8 @@ def create_advanced_metrics_dashboard():
     
     with col1:
         st.markdown(f"""
-        <div class="metric-card pulse-glow slide-in-left">
-            <div class="metric-icon"><i class="fa-duotone fa-magnifying-glass-chart fa-beat"></i></div>
+        <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-search"></i></div>
             <div class="metric-value">{st.session_state.total_detections:,}</div>
             <div class="metric-label">Total Detections</div>
         </div>
@@ -553,8 +504,8 @@ def create_advanced_metrics_dashboard():
     with col2:
         unique_objects = len(set([item['class'] for item in st.session_state.detection_history]))
         st.markdown(f"""
-        <div class="metric-card slide-in-left" style="animation-delay: 0.1s;">
-            <div class="metric-icon"><i class="fa-duotone fa-cubes-stacked fa-fade"></i></div>
+        <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-cubes"></i></div>
             <div class="metric-value">{unique_objects}</div>
             <div class="metric-label">Unique Objects</div>
         </div>
@@ -563,8 +514,8 @@ def create_advanced_metrics_dashboard():
     with col3:
         avg_confidence = np.mean([item['confidence'] for item in st.session_state.detection_history]) if st.session_state.detection_history else 0
         st.markdown(f"""
-        <div class="metric-card slide-in-right" style="animation-delay: 0.2s;">
-            <div class="metric-icon"><i class="fa-duotone fa-gauge-max fa-spin"></i></div>
+        <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-chart-pie"></i></div>
             <div class="metric-value">{avg_confidence:.1%}</div>
             <div class="metric-label">Avg Confidence</div>
         </div>
@@ -573,8 +524,8 @@ def create_advanced_metrics_dashboard():
     with col4:
         session_duration = (datetime.now() - st.session_state.session_start_time).total_seconds() / 60
         st.markdown(f"""
-        <div class="metric-card slide-in-right" style="animation-delay: 0.3s;">
-            <div class="metric-icon"><i class="fa-duotone fa-timer fa-beat"></i></div>
+        <div class="metric-card">
+            <div class="metric-icon"><i class="fas fa-clock"></i></div>
             <div class="metric-value">{session_duration:.1f}m</div>
             <div class="metric-label">Session Time</div>
         </div>
@@ -584,10 +535,10 @@ def create_advanced_analytics():
     """Create advanced analytics with modern charts"""
     if not st.session_state.detection_history:
         st.markdown("""
-        <div style="text-align: center; padding: 3rem; background: rgba(255,255,255,0.1); border-radius: 20px; backdrop-filter: blur(10px);">
-            <i class="fa-duotone fa-chart-tree-map fa-4x fa-spin" style="color: #667eea; margin-bottom: 1rem;"></i>
-            <h3 style="color: #667eea; margin-bottom: 1rem;">Analytics Dashboard</h3>
-            <p style="color: #64748b;">Advanced analytics will appear here after your first detection session</p>
+        <div style="text-align: center; padding: 2rem; background: var(--background-secondary); border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm);">
+            <i class="fas fa-chart-bar" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Analytics Dashboard</h3>
+            <p style="color: var(--text-secondary);">Advanced analytics will appear here after your first detection session</p>
         </div>
         """, unsafe_allow_html=True)
         return
@@ -1275,15 +1226,15 @@ def main():
     st.markdown("---")
     st.markdown(
         """
-        <div style='text-align: center; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px); margin-top: 2rem;'>
-            <div style='font-size: 1.2rem; margin-bottom: 1rem;'>
-                <i class='fa-duotone fa-heart-pulse fa-beat' style='color: #ef4444;'></i> 
+        <div style='text-align: center; padding: 1.5rem; background: var(--background-secondary); border-radius: var(--border-radius-md); margin-top: 2rem;'>
+            <div style='font-size: 1rem; margin-bottom: 0.75rem;'>
+                <i class='fas fa-heart' style='color: var(--error-color);'></i> 
                 <strong>EcoVision AI</strong> - Powered by Advanced Neural Networks
             </div>
-            <div style='font-size: 0.9rem; opacity: 0.8;'>
-                <i class='fa-duotone fa-code-compare fa-spin'></i> Built with Streamlit & YOLOv5 | 
-                <i class='fa-duotone fa-copyright'></i> 2024 EcoVision Technologies | 
-                <i class='fa-duotone fa-globe-pointer fa-bounce'></i> Next-Gen AI Solutions
+            <div style='font-size: 0.875rem; color: var(--text-secondary);'>
+                <i class='fas fa-code'></i> Built with Streamlit & YOLOv5 | 
+                <i class='fas fa-copyright'></i> 2024 EcoVision Technologies | 
+                <i class='fas fa-globe'></i> Next-Gen AI Solutions
             </div>
         </div>
         """,
