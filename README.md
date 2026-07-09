@@ -18,7 +18,9 @@
 
 ## 📋 Overview
 
-wasteVision is an advanced object detection platform powered by YOLOv5, featuring a modern Streamlit web interface branded as "EcoVision AI". The system provides real-time waste detection and classification capabilities with professional analytics dashboards, making it suitable for environmental monitoring, waste management automation, and recycling optimization.
+wasteVision is a Streamlit application — branded "EcoVision AI" — built on top of **[Ultralytics YOLOv5](https://github.com/ultralytics/yolov5)**. This repo is a fork of the YOLOv5 codebase; the object-detection architecture, training scripts, and utilities come from that upstream project. What I built on top of it is the application layer: the real-time webcam/video pipeline (via `streamlit-webrtc`), the analytics dashboard (Plotly-based detection history, confidence distributions, session tracking), and the UI/UX (`app.py`, ~1,245 lines).
+
+**Honesty note on the model:** `best.pt` in this repo has not yet been evaluated with documented metrics (see [MODEL_CARD.md](MODEL_CARD.md) — the evaluation section is still a template). Until dataset provenance and mAP/precision/recall numbers are filled in, treat this as a demo app wired up to a YOLOv5 checkpoint rather than a benchmarked, production waste-classifier. The system provides real-time detection and classification capabilities with professional analytics dashboards, and is a solid demonstration of a deployable computer-vision workflow — the honest framing is "app + deployment skills," not "novel detection model."
 
 ### 🎯 Key Highlights
 
@@ -102,6 +104,8 @@ pip install -r requirements.txt
 # Place your trained YOLOv5 weights as 'best.pt' in the project root
 # Or the app will automatically use pretrained YOLOv5s as fallback
 ```
+
+Large model files are intentionally excluded from Git. See [MODEL_CARD.md](MODEL_CARD.md) for artifact handling and the evaluation details that should accompany any released weights.
 
 4. **Run the application**
 ```bash
